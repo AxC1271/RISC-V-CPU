@@ -21,12 +21,10 @@ The hardware component includes:
 </br>
 The CPU follows the standard instruction cycle: fetch → decode → execute → memory access → write-back, and interacts with RAM to store computation results.
 
-# Theory
-
 ## Compiler Design and Execution
 
 ## CPU Architecture
 
-# Experiment
+## Experiment
 
-# Deliverables
+## Deliverables
