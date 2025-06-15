@@ -22,6 +22,9 @@ The hardware component includes:
 The CPU follows the standard instruction cycle: fetch → decode → execute → memory access → write-back, and interacts with RAM to store computation results.
 
 ## Compiler Design
+![MIPS CPU Block Diagram](images/compilation.joeg)
+Credit to Arseny Morozov for this diagram
+
 
 ## CPU Architecture Design
 
