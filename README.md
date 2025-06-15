@@ -1,6 +1,4 @@
 # MIPS-CPU FPGA Implementation using VHDL Overview
-Hi!
-
 After taking a computer architecture course at Case Western, I felt inspired to design and write my own processor using the MIPS architecture. This project is divided into two stages: software and hardware. 
 
 ## Software
