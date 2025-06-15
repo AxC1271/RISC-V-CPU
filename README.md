@@ -17,7 +17,7 @@ Each 32-bit instruction is divided into four 8-bit packets (bytes) for serial tr
 The hardware component includes:
 - A UART receiver that collects incoming 8-bit packets and reconstructs them into 32-bit instructions.
 - An instruction memory (RAM) that stores the uploaded program.
-- A MIPS-compatible CPU written in VHDL, which begins execution once all instructions are received.
+- A MIPS-compatible CPU written in VHDL, which begins execution once all instructions are received. </br>
 The CPU follows the standard instruction cycle: fetch → decode → execute → memory access → write-back, and interacts with RAM to store computation results.
 
 # Theory
