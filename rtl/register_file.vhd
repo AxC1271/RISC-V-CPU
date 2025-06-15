@@ -2,6 +2,9 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
+-- our physical RAM, I've allocated 32 registers, each being 32 bits wide. This is more than enough
+-- for our demonstrations and purposes within this project.
+
 entity register_file is
     port (
         clk : in STD_LOGIC;
