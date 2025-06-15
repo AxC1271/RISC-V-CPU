@@ -23,8 +23,10 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
 
 ## Compiler Design
 <figure>
-  <img src="images/compilation.jpeg">
-  <figcaption>Credit goes to Arseny Morozov for this picture.</figcaption>
+  <p align="center">
+    <img src="images/compilation.jpeg">
+  </p>
+  <p align="center"><em>Credit goes to Arseny Morozov for this picture.</em></p>
 </figure>
 
 
