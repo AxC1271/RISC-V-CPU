@@ -2,7 +2,7 @@
 After taking a computer architecture course at Case Western, I was inspired to design and implement a processor based on the MIPS architecture. This project is divided into two main components: software (compiler/assembler + UART communication) and hardware (CPU implementation on FPGA).
 
 ## Software Approach
-The software component consists of a compiler/assembler that translates simplified C-style code such as:
+The software component consists of a compiler that translates simplified C-style code such as:
 ```c
 int a = 5; 
 int b = 3; 
