@@ -23,7 +23,7 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
 
 ## Compiler Design
 ![MIPS CPU Block Diagram](images/compilation.jpeg) </br>
-Credit to Arseny Morozov for this diagram
+#### Credit to Arseny Morozov for this diagram.
 
 
 ## CPU Architecture Design
