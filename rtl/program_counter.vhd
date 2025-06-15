@@ -2,6 +2,8 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
+-- the purpose of this entity is to correctly increment the address of the instruction
+-- pointer so that the CPU fetches the correct instruction to decode and execute
 entity program_counter is
     port (
         clk : in STD_LOGIC;
