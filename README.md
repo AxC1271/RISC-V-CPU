@@ -1,4 +1,4 @@
-# RISC-V-CPU
+# MIPS-CPU FPGA Implementation using VHDL
 
 Hi!
 
