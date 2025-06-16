@@ -29,6 +29,20 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
   <p align="center"><em>Credit goes to Arseny Morozov for this picture.</em></p>
 </figure>
 
+### Lexer
+
+
+### Parser
+
+### Semantic Analyzer
+
+### IR (Intermediate Representation) Generator
+
+### Optimizer
+
+### Code Generation
+
+### Linker
 
 
 ## CPU Architecture Design
