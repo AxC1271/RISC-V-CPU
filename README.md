@@ -4,10 +4,15 @@ After taking a computer architecture course at Case Western, I was inspired to d
 ## Software Approach
 The software component consists of a compiler that translates simplified C-style code such as:
 ```c
-int a = 5; 
-int b = 3; 
-int c = a + b; 
-printf(c, %d); 
+#include <stdio.h>
+
+int main() {
+    int a = 5; 
+    int b = 3; 
+    int c = a + b; 
+    printf("%d\n", c); 
+    return 0;
+}
 ```
 
 into 32-bit MIPS machine instructions. These instructions are then transmitted from my Mac to the FPGA over UART using the Python pyserial library.
