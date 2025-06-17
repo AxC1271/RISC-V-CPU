@@ -52,7 +52,7 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
 ## CPU Architecture Design
 
 ### Instruction Memory
-The instruction memory is where the instructions get loaded onto the FPGA via UART. 
+The instruction memory is where the instructions get loaded onto the FPGA via UART. This entity acts in tandem with a receiver that writes to memory every time the valid flag gets asserted. It also takes the pc for reading the address of the instruction which later gets pipelined into the instruction register → control unit.
 
 ### Register File
 In this project, the register file contains 32 registers, each being 32 bits wide. The address is a 5 bit standard logic vector that indexes the registers, and the register file includes two read addresses, a write enable input, a write address, and a 32-bit wide read value.
