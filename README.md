@@ -50,6 +50,12 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
 
 
 ## CPU Architecture Design
+<figure>
+  <p align="center">
+    <img src="images/MIPS.jpeg">
+  </p>
+  <p align="center"><em>MIPS CPU Architecture.</em></p>
+</figure>
 
 ### Instruction Memory
 The instruction memory is where the instructions get loaded onto the FPGA via UART. This entity acts in tandem with a receiver that writes to memory every time the valid flag gets asserted. It also takes the pc for reading the address of the instruction which later gets pipelined into the instruction register → control unit.
