@@ -52,7 +52,7 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
 ## CPU Architecture Design
 <figure>
   <p align="center">
-    <img src="images/MIPS.jpeg">
+    <img src="images/MIPS.jpg">
   </p>
   <p align="center"><em>MIPS CPU Architecture.</em></p>
 </figure>
