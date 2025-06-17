@@ -52,6 +52,16 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
 
 ## CPU Architecture Design
 
+### Instruction Memory
+
+### Register File
+
+### Program Counter
+
+### Control Unit
+
+### Arithmetic Logic Unit
+
 ## Experiment
 
 ## Deliverables
