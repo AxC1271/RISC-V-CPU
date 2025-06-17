@@ -36,7 +36,6 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
 
 ### Lexer
 
-
 ### Parser
 
 ### Semantic Analyzer
@@ -53,14 +52,20 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
 ## CPU Architecture Design
 
 ### Instruction Memory
+The instruction memory is where the instructions get loaded onto the FPGA via UART. 
 
 ### Register File
+In this project, the register file contains 32 registers, each being 32 bits wide. The address is a 5 bit standard logic vector that indexes the registers, and the register file includes two read addresses, a write enable input, a write address, and a 32-bit wide read value.
 
 ### Program Counter
+The program counter is a register that stores the current instruction address (in bytes) and increments by 4 once the instruction has been completed in the CPU.
 
 ### Control Unit
+The control unit takes the instruction fetched from the instruction memory and sends out the appropriate control flags to the rest of the CPU, such as the ALU opcodes, writing to the appropriate registers, and reading from the correct memory address.
 
 ### Arithmetic Logic Unit
+The arithmetic logic unit (or ALU) performs all mathematical computations within the CPU, such as adding, subtracting, bitwise operations, etc.
+
 
 ## Experiment
 
