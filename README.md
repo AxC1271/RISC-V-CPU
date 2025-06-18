@@ -35,8 +35,10 @@ The CPU follows the standard instruction cycle: fetch → decode → execute →
 </figure>
 
 ### Lexer
+The lexer linearly parses the C-style code as a string and generates tokens, such as operands, operators, and regular expressions. This is determined by the language due to unique keywords and different syntactical structures.
 
 ### Parser
+The parser takes the stream of tokens from the lexer and constructs an abstract syntax tree (AST). This tree represents the program structure of the input code, with each node of the tree containing a token. 
 
 ### Semantic Analyzer
 
