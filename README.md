@@ -77,4 +77,6 @@ The arithmetic logic unit (or ALU) performs all mathematical computations within
 
 ## Experiment
 
+We will cross validate the hardware circuit implementation on the Basys3 FPGA board using a multitude of simulations and testbenches to ensure that our CPU works as expected when running certain instructions.
+
 ## Deliverables
