@@ -19,7 +19,6 @@ end program_counter;
 architecture Behavioral of program_counter is
     signal curr_pc : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
     
-    -- Useful constants
     constant PC_INCREMENT : integer := 4;  -- 32-bit instructions = 4 bytes
     constant RESET_PC : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
     
