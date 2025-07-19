@@ -51,13 +51,7 @@ The parser takes the stream of tokens from the lexer and constructs an abstract 
 ### Linker
 
 
-## CPU Architecture Design
-<figure>
-  <p align="center">
-    <img src="images/MIPS.jpg">
-  </p>
-  <p align="center"><em>MIPS CPU Architecture.</em></p>
-</figure>
+## CPU Architecture Theory
 
 ### Instruction Memory
 The instruction memory is where the instructions get loaded onto the FPGA via UART. This entity acts in tandem with a receiver that writes to memory every time the valid flag gets asserted. It also takes the pc for reading the address of the instruction which later gets pipelined into the instruction register → control unit.
@@ -74,9 +68,9 @@ The control unit takes the instruction fetched from the instruction memory and s
 ### Arithmetic Logic Unit
 The arithmetic logic unit (or ALU) performs all mathematical computations within the CPU, such as adding, subtracting, bitwise operations, etc.
 
+### Datapath
+The datapath takes the results of the ALU and control flags to determine where to write back to the register files, finishing the CPU execution cycle.
 
-## Experiment
+---
 
-We will cross validate the hardware circuit implementation on the Basys3 FPGA board using a multitude of simulations and testbenches to ensure that our CPU works as expected when running certain instructions.
-
-## Deliverables
+Please go into either the RTL folder or the Python folder to read more in detail.
