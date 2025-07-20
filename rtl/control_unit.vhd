@@ -2,91 +2,115 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
+-- RISC-V Control Unit 
+-- supports ADD, SUB, AND, OR, XOR, ADDI, LW, SW, BEQ
 entity control_unit is
     port (
-        opcode : in STD_LOGIC_VECTOR(5 downto 0);
-        funct : in STD_LOGIC_VECTOR(5 downto 0);
+        -- instruction fields
+        opcode : in STD_LOGIC_VECTOR(6 downto 0);  -- bits [6:0] - RISC-V uses 7 bits
+        funct3 : in STD_LOGIC_VECTOR(2 downto 0);  -- bits [14:12]
+        funct7 : in STD_LOGIC_VECTOR(6 downto 0);  -- bits [31:25]
         
-        jmp : out STD_LOGIC;
-        memToReg : out STD_LOGIC;
-        MemWrite : out STD_LOGIC;
-        BranchEq : out STD_LOGIC;
-        BranchLess : out STD_LOGIC;
-        BranchMore : out STD_LOGIC;
-        ALUCont : out STD_LOGIC_VECTOR(2 downto 0);
-        ALUSrc : out STD_LOGIC;
-        RegDst : out STD_LOGIC;
-        RegWrite : out STD_LOGIC
+        -- Control signals 
+        RegWrite     : out STD_LOGIC;               -- write to register file
+        MemRead      : out STD_LOGIC;               -- read from memory (was missing)
+        MemWrite     : out STD_LOGIC;               -- write to memory
+        BranchEq     : out STD_LOGIC;               -- branch equal (BEQ only for now)
+        memToReg     : out STD_LOGIC;               -- select memory data for writeback
+        ALUSrc       : out STD_LOGIC;               -- select immediate for ALU
+        ALUCont      : out STD_LOGIC_VECTOR(2 downto 0); -- ALU operation
+        jmp          : out STD_LOGIC                -- jump signal 
     );
 end control_unit;
 
 architecture Behavioral of control_unit is
-
+    -- RISC-V opcodes (7-bit)
+    constant OP_R_TYPE : STD_LOGIC_VECTOR(6 downto 0) := "0110011"; -- R-type
+    constant OP_I_ARITH: STD_LOGIC_VECTOR(6 downto 0) := "0010011"; -- I-type arithmetic 
+    constant OP_LOAD   : STD_LOGIC_VECTOR(6 downto 0) := "0000011"; -- load
+    constant OP_STORE  : STD_LOGIC_VECTOR(6 downto 0) := "0100011"; -- store
+    constant OP_BRANCH : STD_LOGIC_VECTOR(6 downto 0) := "1100011"; -- branch
+    
+    -- funct3 codes
+    constant F3_ADD_SUB: STD_LOGIC_VECTOR(2 downto 0) := "000";
+    constant F3_AND    : STD_LOGIC_VECTOR(2 downto 0) := "111";
+    constant F3_OR     : STD_LOGIC_VECTOR(2 downto 0) := "110";
+    constant F3_XOR    : STD_LOGIC_VECTOR(2 downto 0) := "100";
+    constant F3_BEQ    : STD_LOGIC_VECTOR(2 downto 0) := "000";
+    
+    -- funct7 codes  
+    constant F7_ADD    : STD_LOGIC_VECTOR(6 downto 0) := "0000000";
+    constant F7_SUB    : STD_LOGIC_VECTOR(6 downto 0) := "0100000";
+    
 begin
--- handing ALUOp code
-    with opcode select
-        ALUCont <= "000" when "000111", -- branch if greater than
-                   "000" when "001000", -- add immediate
-                   "001" when "001010", 
-                   "001"  when "001011",
-                   "101" when "000101",
-                   "110" when "00110",
-                   funct(2 downto 0) when "000000",-- R type instructions
-                   opcode(2 downto 0)-"001" when others;
-
--- handling memToReg for load instr
-    with opcode select
-        memToReg <= '1' when "000111",
-                    '0' when others;
-
--- handling memWrite for store instr
-    with opcode select
-        MemWrite <= '1' when "001000",
-                    '0' when others;
-                    
--- branch equals instr
-    with opcode select
-        BranchEq <= '1' when "001010",
-                    '0' when others;
-
--- branch less than
-    with opcode select
-        BranchLess <= '1' when "001001",
-                      '0' when others;
-                      
--- branch greater than
-    with opcode select
-        BranchMore <= '1' when "001011",
-                      '0' when others;
- 
--- jmp instr
-    with opcode select
-        jmp <= '1' when "001100",
-               '0' when others;
-               
--- reg dst
-    with opcode select
-        RegDst <= '1' when "000000",
-                  '1' when "001100",
-                  '0' when others;
-                  
--- alu src
-    with opcode select
-        ALUSrc <= '0' when "000000",
-                  '0' when "001001",
-                  '0' when "001010",
-                  '0' when "001011",
-                  '1' when others;
-
--- reg write
-    with opcode select
-        RegWrite <= '1' when "000000",
-                    '1' when "000010",
-                    '1' when "000011",
-                    '1' when "000100",
-                    '1' when "000101",
-                    '1' when "000110",
-                    '1' when "000111",
-                    '1' when "111111",
-                    '0' when others;
+    process(opcode, funct3, funct7)
+    begin
+        RegWrite <= '0';
+        MemRead <= '0';
+        MemWrite <= '0';
+        BranchEq <= '0';
+        memToReg <= '0';
+        ALUSrc <= '0';
+        ALUCont <= "000";
+        jmp <= '0';        -- Not implemented yet
+        
+        case opcode is
+            when OP_R_TYPE => -- R-type instructions (ADD, SUB, AND, OR, XOR)
+                RegWrite <= '1';
+                ALUSrc <= '0'; 
+                RegDst <= '1'; 
+                
+                case funct3 is
+                    when F3_ADD_SUB =>
+                        if funct7 = F7_ADD then
+                            ALUCont <= "000"; -- ADD
+                        elsif funct7 = F7_SUB then
+                            ALUCont <= "001"; -- SUB
+                        end if;
+                    when F3_AND =>
+                        ALUCont <= "010"; -- AND
+                    when F3_OR =>
+                        ALUCont <= "011"; -- OR  
+                    when F3_XOR =>
+                        ALUCont <= "100"; -- XOR
+                    when others =>
+                        ALUCont <= "000"; -- Default to ADD
+                end case;
+                
+            when OP_I_ARITH => -- I-type arithmetic (ADDI)
+                RegWrite <= '1';
+                ALUSrc <= '1'; 
+                RegDst <= '1';   
+                
+                case funct3 is
+                    when F3_ADD_SUB => -- ADDI
+                        ALUCont <= "000"; -- ADD
+                    when others =>
+                        ALUCont <= "000";
+                end case;
+                
+            when OP_LOAD => -- load instructions (LW)
+                RegWrite <= '1';
+                MemRead <= '1';
+                memToReg <= '1'; 
+                ALUSrc <= '1';   
+                ALUCont <= "000";  
+                
+            when OP_STORE => -- store instructions (SW)
+                MemWrite <= '1';
+                ALUSrc <= '1';   -- Use immediate for address calculation  
+                ALUCont <= "000"; -- ADD for address calculation (rs1 + immediate)
+                
+            when OP_BRANCH => -- branch instructions (BEQ)
+                BranchEq <= '1'; 
+                ALUSrc <= '0';   -- Compare two registers (rs1 vs rs2)
+                ALUCont <= "001"; 
+                -- If ALU zero_flag = '1', then rs1 = rs2, so branch
+                
+            when others =>
+                -- All outputs already set to safe defaults above
+                null;
+        end case;
+    end process;
+    
 end Behavioral;
