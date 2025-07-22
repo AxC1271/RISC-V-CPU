@@ -20,7 +20,7 @@ architecture Behavioral of InstructionFetch is
     );
 
 begin
-    process(clk, reset)
+    process(clk, rst)
     begin
         if rst = '1' then
             instruction <= (others => '0');
