@@ -26,7 +26,9 @@ begin
             instruction <= (others => '0');
         elsif rising_edge(clk) then
             -- Use the program counter to fetch the instruction
-            instruction <= instruction_memory(to_integer(unsigned(pc(7 downto 0))));
+            -- since the pc is incrementing by 4, exclude the last 2 bits
+            -- so that we're effectively adding by 1 as indices
+            instruction <= instruction_memory(to_integer(unsigned(pc(31 downto 2))));
         end if;
     end process;
 end Behavioral;
