@@ -6,7 +6,8 @@ use IEEE.NUMERIC_STD.ALL;
 -- get connected to be fully functional
 entity riscv_processor is
   port (
-
+    clk : in STD_LOGIC;
+    rst : in STD_LOGIC
   );
 
 end riscv_processor;
