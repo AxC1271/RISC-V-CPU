@@ -3,7 +3,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity InstructionFetch is
-    Port ( 
+    port ( 
         clk : in STD_LOGIC;
         reset : in STD_LOGIC;
         pc : in STD_LOGIC_VECTOR(31 downto 0);  -- input from program counter
