@@ -41,7 +41,7 @@ architecture Behavioral of riscv_process is
     port (
         clk : in STD_LOGIC;
         rst : in STD_LOGIC;
-        read_addr1: in STD_LOGIC_VECTOR(4 downto 0):
+        read_addr1: in STD_LOGIC_VECTOR(4 downto 0);
         read_addr2 : in STD_LOGIC_VECTOR(4 downto 0);
 
         write_addr : in STD_LOGIC_VECTOR(4 downto 0);
