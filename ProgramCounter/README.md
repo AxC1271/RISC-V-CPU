@@ -66,10 +66,10 @@ begin
 end Behavioral;
 ```
 </div>
-
+Generally speaking, the increment for a program counter is always 4 bytes since every instruction is 32 bits long. However, since the instruction memory module uses an array with each entry being a STD_LOGIC_VECTOR with a width of 32 bits, this is not necessary but useful to keep in mind.
 
 ### Testing
-
+Here's the test bench for our program ocunter to ensure correctness and ideal behavior.
 
 ## Theoretical Background
 
