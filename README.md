@@ -1,76 +1,41 @@
 # RISC-V CPU FPGA Implementation using VHDL Overview
-After taking a computer architecture course at Case Western, I was inspired to design and implement a processor based on the RISC-V architecture. This project is divided into two main components: software (compiler/assembler + UART communication) and hardware (CPU implementation on FPGA).
+Welcome to the RISC-V CPU FPGA Implementation project! Inspired by my computer architecture course at Case Western, this project aims to design and implement a processor based on the RISC-V architecture using VHDL.
 
-## Software Approach
-The software component consists of a compiler that translates simplified C-style code such as:
-```c
-#include <stdio.h>
-
-int main() {
-    int a = 5; 
-    int b = 3; 
-    int c = a + b; 
-    printf("%d\n", c); 
-    return 0;
-}
-```
-
-into 32-bit RISC-V machine instructions. These instructions are then transmitted from my Mac to the FPGA over UART using the Python pyserial library.
-Each 32-bit instruction is divided into four 8-bit packets (bytes) for serial transmission.
+## Overview 
+This project involves creating a RISC-V compatible CPU on an FPGA, focusing on the hardware components and CPU architecture. The CPU follows the standard instruction cycle: fetch → decode → execute → memory access → write-back, interacting with RAM to store computation results.
 
 ## Hardware Approach
 The hardware component includes:
-- A UART receiver that collects incoming 8-bit packets and reconstructs them into 32-bit instructions.
-- An instruction memory (RAM) that stores the uploaded program.
-- A RISCV-compatible CPU written in VHDL, which begins execution once all instructions are received. </br>
-</br>
+- Instruction Memory (RAM): Stores the uploaded program and interacts with the CPU during execution.
+- RISC-V Compatible CPU: Written in VHDL, the CPU begins execution once all instructions are received.
+- </br>
 The CPU follows the standard instruction cycle: fetch → decode → execute → memory access → write-back, and interacts with RAM to store computation results.
-
-## Compiler Design
-<figure>
-  <p align="center">
-    <img src="images/compilation.jpeg">
-  </p>
-  <p align="center"><em>Credit goes to Arseny Morozov for this picture.</em></p>
-</figure>
-
-### Lexer
-The lexer linearly parses the C-style code as a string and generates tokens, such as operands, operators, and regular expressions. This is determined by the language due to unique keywords and different syntactical structures.
-
-### Parser
-The parser takes the stream of tokens from the lexer and constructs an abstract syntax tree (AST). This tree represents the program structure of the input code, with each node of the tree containing a token. 
-
-### Semantic Analyzer
-
-### IR (Intermediate Representation) Generator
-
-### Optimizer
-
-### Code Generation
-
-### Linker
 
 
 ## CPU Architecture Theory
 
 ### Instruction Memory
-The instruction memory is where the instructions get loaded onto the FPGA via UART. This entity acts in tandem with a receiver that writes to memory every time the valid flag gets asserted. It also takes the pc for reading the address of the instruction which later gets pipelined into the instruction register → control unit.
+The instruction memory is crucial for loading instructions onto the FPGA via UART. It works in tandem with a receiver that writes to memory whenever the valid flag is asserted. The program counter (PC) reads the address of the instruction, which is then pipelined into the instruction register and control unit.
 
 ### Register File
-In this project, the register file contains 32 registers, each being 32 bits wide. The address is a 5 bit standard logic vector that indexes the registers, and the register file includes two read addresses, a write enable input, a write address, and a 32-bit wide read value.
+The register file consists of 32 registers, each 32 bits wide. It uses a 5-bit standard logic vector to index the registers and includes:
+- Two read addresses
+- A write enable input
+- A write address
+- A 32-bit wide read value
 
 ### Program Counter
 The program counter is a register that stores the current instruction address (in bytes) and increments by 4 once the instruction has been completed in the CPU.
 
 ### Control Unit
-The control unit takes the instruction fetched from the instruction memory and sends out the appropriate control flags to the rest of the CPU, such as the ALU opcodes, writing to the appropriate registers, and reading from the correct memory address.
+The control unit processes the instruction fetched from the instruction memory and sends out the appropriate control flags to the rest of the CPU. This includes ALU opcodes, writing to the appropriate registers, and reading from the correct memory address.
 
 ### Arithmetic Logic Unit
-The arithmetic logic unit (or ALU) performs all mathematical computations within the CPU, such as adding, subtracting, bitwise operations, etc.
+The ALU performs all mathematical computations within the CPU, including addition, subtraction, bitwise operations, and more.
 
 ### Datapath
-The datapath takes the results of the ALU and control flags to determine where to write back to the register files, finishing the CPU execution cycle.
+The datapath takes the results from the ALU and control flags to determine where to write back to the register files, completing the CPU execution cycle.
 
 ---
 
-Please go into either the RTL folder or the Python folder to read more in detail.
+Please go into each subproject folder to see more in detail.
