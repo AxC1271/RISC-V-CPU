@@ -18,7 +18,7 @@ The register file is a key element in the CPU architecture, consisting of 32 reg
 ### Block Diagram
 
 ### Design
-<div>
+<div style="max-width: 800px; overflow-x: auto;">
     
 ```VHDL
 library IEEE;
@@ -76,8 +76,11 @@ begin
     
 end Behavioral;
 ```
-</div style="max-width: 800px; overflow-x: auto;">
+</div>
+
+
 ### Testing
+
 
 ## Theoretical Background
 
