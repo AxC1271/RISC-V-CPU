@@ -16,7 +16,7 @@ entity control_unit is
         MemRead      : out STD_LOGIC;               -- read from memory (was missing)
         MemWrite     : out STD_LOGIC;               -- write to memory
         BranchEq     : out STD_LOGIC;               -- branch equal (BEQ only for now)
-        memToReg     : out STD_LOGIC;               -- select memory data for writeback
+        MemToReg     : out STD_LOGIC;               -- select memory data for writeback
         ALUSrc       : out STD_LOGIC;               -- select immediate for ALU
         ALUCont      : out STD_LOGIC_VECTOR(2 downto 0); -- ALU operation
         jmp          : out STD_LOGIC                -- jump signal 
@@ -51,7 +51,7 @@ begin
         MemRead <= '0';
         MemWrite <= '0';
         BranchEq <= '0';
-        memToReg <= '0';
+        MemToReg <= '0';
         ALUSrc <= '0';
         ALUCont <= "000";
         jmp <= '0';
@@ -93,7 +93,7 @@ begin
             when OP_LOAD => -- load instructions (LW)
                 RegWrite <= '1';
                 MemRead <= '1';
-                memToReg <= '1'; 
+                MemToReg <= '1'; 
                 ALUSrc <= '1';   
                 ALUCont <= "000";  
                 
