@@ -1,6 +1,6 @@
 # Register File
 
-Welcometo the RegisterFile module of this RISC-V processor project. This component allows for the storage and access of data during CPU operations. Below, you'll find an overview of the register file's functionality, development process, and theoretical background.
+Welcome to the RegisterFile module of this RISC-V processor project. This component allows for the storage and access of data during CPU operations. Below, you'll find an overview of the register file's functionality, development process, and theoretical background.
 
 ## Overview
 The register file is a key element in the CPU architecture, consisting of 32 registers, each 32 bits wide. It serves as a fast-access storage area for the CPU, allowing efficient data manipulation and retrieval during instruction execution.
