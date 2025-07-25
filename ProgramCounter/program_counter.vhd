@@ -7,7 +7,7 @@ use IEEE.NUMERIC_STD.ALL;
 -- PC increments by 4 bytes (32-bit instructions) each cycle unless overridden
 entity program_counter is
     port (
-        clk : in STD_LOGIC;
+        clk : in STD_LOGIC; -- make sure to make this clock slow
         rst : in STD_LOGIC;
         pc_src : in STD_LOGIC_VECTOR(31 downto 0);  -- new PC value from branch/jump
         pc : out STD_LOGIC_VECTOR(31 downto 0)      -- current PC value
