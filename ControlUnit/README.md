@@ -74,7 +74,7 @@ begin
         case opcode is
             when OP_R_TYPE =>
                 RegWrite <= '1';
-                ALUSrc <= '0'; 
+                ALUSrc <= '0'; -- two registers, I'll denote 0 to denote there's a second register operand
                 
                 case funct3 is
                     when F3_ADD_SUB =>
@@ -95,7 +95,7 @@ begin
                 
             when OP_I_ARITH =>
                 RegWrite <= '1';
-                ALUSrc <= '1'; 
+                ALUSrc <= '1'; -- for immediate instructions the second operand is a value, not a register
                 
                 case funct3 is
                     when F3_ADD_SUB => -- ADDI
