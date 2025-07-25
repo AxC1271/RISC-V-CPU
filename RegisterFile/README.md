@@ -143,32 +143,23 @@ begin
     wait for 10 ns;
 
     -- test case #1: Write to reg 1
-    clk <= '0';
     write_addr <= "00001";
     write_data <= x"00000001";
     reg_write <= '1';
     wait for 10 ns;
-    clk <= '1';
-    wait for 10 ns;
 
     -- test case #2: Write to reg 2
-    clk <= '0';
     reg_write <= '0';
     write_addr <= "00010";
     write_data <= x"00FF89D5";
     reg_write <= '1';
     wait for 10 ns;
-    clk <= '1';
-    wait for 10 ns;
 
     -- test case #3: Write to reg 0 (should remain zero)
-    clk <= '0';
     reg_write <= '0';
     write_addr <= "00000";
     write_data <= x"01010101";
     reg_write <= '1';
-    wait for 10 ns;
-    clk <= '1';
     wait for 10 ns;
 
     -- read from reg 1
