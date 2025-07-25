@@ -24,8 +24,6 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity instruction_memory is
     port ( 
-        clk : in STD_LOGIC;
-        rst : in STD_LOGIC;
         pc : in STD_LOGIC_VECTOR(31 downto 0);  -- input from program counter
         instruction : out STD_LOGIC_VECTOR(31 downto 0)
     );
