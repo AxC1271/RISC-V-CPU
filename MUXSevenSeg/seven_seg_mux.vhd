@@ -22,8 +22,11 @@ architecture Behavioral of seven_seg_mux is
   signal seg_i : STD_LOGIC_VECTOR(6 downto 0) := (others => '1');
   signal ade_i : STD_LGOIC_VECTOR(3 downto 0) := (others => '1');
   signal clk_cnt : integer range 0 to clk_max := 0;
+
+  -- this is the intermediary value that we will display
+  signal val_i : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
+
 begin
-  
   -- define all inner processes here
 
   -- first process: generate a slower clock signal for the multiplexer
@@ -42,8 +45,13 @@ begin
     end if;
   end process clk_div;
 
-  seg_display: process(seg_clk) is
+  seg_display: process(seg_clk, rst) is
   begin
+    if rst = '1' then
+      
+    elsif rising_edge(clk) then
+      
+    end if;
   end process seg_display;
 
   anode_mux: process is
