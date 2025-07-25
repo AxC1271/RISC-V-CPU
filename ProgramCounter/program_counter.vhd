@@ -10,7 +10,6 @@ entity program_counter is
         clk : in STD_LOGIC;
         rst : in STD_LOGIC;
         pc_src : in STD_LOGIC_VECTOR(31 downto 0);  -- new PC value from branch/jump
-        branch_taken : in STD_LOGIC;                -- signal indicating branch/jump taken
         pc : out STD_LOGIC_VECTOR(31 downto 0)      -- current PC value
     );
 end program_counter;
