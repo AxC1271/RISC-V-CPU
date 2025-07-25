@@ -1,4 +1,4 @@
-# Register File
+# Program Counter
 
 Welcome to the Program Counter module of this RISC-V processor project. This component is responsible for tracking the current instruction address during CPU operations. Below, you'll find an overview of the program counter's functionality, development process, and theoretical background.
 
