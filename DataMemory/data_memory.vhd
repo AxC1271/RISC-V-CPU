@@ -3,13 +3,13 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity data_memory is
-    port (
-        rst : in STD_LOGIC;
-        address : in STD_LOGIC_VECTOR(31 downto 0); -- memory address
-        write_data : in STD_LOGIC_VECTOR(31 downto 0); -- data to write
-        mem_write : in STD_LOGIC; -- write enable
-        mem_read : in STD_LOGIC; -- read enable
-        read_data : out STD_LOGIC_VECTOR(31 downto 0) -- data read from memory
+  port (
+    rst : in STD_LOGIC;
+    address : in STD_LOGIC_VECTOR(31 downto 0); -- memory address
+    write_data : in STD_LOGIC_VECTOR(31 downto 0); -- data to write
+    mem_write : in STD_LOGIC; -- write enable
+    mem_read : in STD_LOGIC; -- read enable
+    read_data : out STD_LOGIC_VECTOR(31 downto 0) -- data read from memory
     );
 end data_memory;
 
