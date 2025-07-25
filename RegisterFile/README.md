@@ -195,7 +195,7 @@ begin
 end Behavioral;
 ```
 
-Here are the waveforms on Vivado to show proof of correctness:
+Here are the waveforms on Vivado to show proof of correctness.
 
 ## Theoretical Background
 
