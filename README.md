@@ -22,6 +22,9 @@ The program counter is a register that stores the current instruction address (i
 ### Control Unit
 The control unit processes the instruction fetched from the instruction memory and sends out the appropriate control flags to the rest of the CPU. This includes ALU opcodes, writing to the appropriate registers, and reading from the correct memory address.
 
+### Immediate Generator
+The immediate generator takes in the instruction as a separate unit and derives the immediate from checking the opcode of the instruction. There's a multiplexer where the output of this gets passed through, which is allowed to propagate based on appropriate control signals from the control unit.
+
 ### Arithmetic Logic Unit
 The ALU performs all mathematical computations within the CPU, including addition, subtraction, bitwise operations, and more.
 
