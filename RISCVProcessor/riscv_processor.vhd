@@ -9,6 +9,7 @@ entity riscv_processor is
     clk : in STD_LOGIC;
     rst : in STD_LOGIC;
 
+    -- for printing statements on seven seg display
     seg : out STD_LOGIC_VECTOR(6 downto 0);
     ade : out STD_LOGIC_VECTOR(3 downto 0);
     led : out STD_LOGIC_VECTOR(15 downto 0)
@@ -118,17 +119,39 @@ architecture Behavioral of riscv_processor is
   end component;
 
   component data_memory is
-    
+    port (
+      rst : in STD_LOGIC;
+      address : in STD_LOGIC_VECTOR(31 downto 0);
+      write_data : in STD_LOGIC_VECTOR(31 downto 0);
+      mem_write : in STD_LOGIC;
+      mem_read : in STD_LOGIC;
+      read_data : out STD_LOGIC_VECTOR(31 downto 0)
+    );
+  end component;
+
+  component seven_seg_mux is
+    port (
+      clk : in STD_LOGIC;
+      rst : in STD_LOGIC;
+      val : in STD_LOGIC_VECTOR(31 downto 0);
+      seg : out STD_LOGIC_VECTOR(6 downto 0);
+      ade : out STD_LOGIC_VECTOR(3 downto 0)
+    );
   end component;
 
 begin
+  PC_adder4 : adder
+    port map (
+      op1 => 
+      op2 =>
+      sum =>
+    );
+  
   PC_inst: program_counter
     port map (
       clk => clk,
       rst => rst,
-      pc_write => '1',  
       pc_src => (others => '0'),  -- default PC source
-      branch_taken => branch_taken,
       pc => pc
     );
 
