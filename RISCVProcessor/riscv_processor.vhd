@@ -30,6 +30,23 @@ architecture Behavioral of riscv_processor is
   signal branch_taken : STD_LOGIC;
 
   -- define our components here
+  component mux is
+    port (
+      input1 : in STD_LOGIC_VECTOR(31 downto 0);
+      input2 : in STD_LOGIC_VECTOR(31 downto 0);
+      sel : in STD_LOGIC;
+      mux_output : out STD_LOGIC_VECTOR(31 downto 0)
+    ); 
+  end component;
+
+  component adder is
+    port (
+      op1 : in STD_LOGIC_VECTOR(31 downto 0);
+      op2 : in STD_LOGIC_VECTOR(31 downto 0);
+      sum : out STD_LOGIC_VECTOR(31 downto 0)
+    );
+  end component;
+
   component program_counter is
     port (
       clk : in STD_LOGIC;
@@ -83,6 +100,13 @@ architecture Behavioral of riscv_processor is
     );
   end component;
 
+  component imm_gen is
+    port (
+      instruction : in STD_LOGIC_VECTOR(31 downto 0);
+      immediate : out STD_LOGIC_VECTOR(31 downto 0)
+    );
+  end component;
+
   component alu is
     port (
       op1 : in STD_LOGIC_VECTOR(31 downto 0);  
@@ -91,6 +115,10 @@ architecture Behavioral of riscv_processor is
       res : out STD_LOGIC_VECTOR(31 downto 0); 
       zero_flag : out STD_LOGIC                   
     );
+  end component;
+
+  component data_memory is
+    
   end component;
 
 begin
