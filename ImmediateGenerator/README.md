@@ -19,6 +19,8 @@ The immediate value is extracted based on the instruction format, which varies f
 - **B-type Instructions:** Immediate is formed by combining bits [31], [30:25], [11:8], and [7].
 - **U-type Instructions:** Immediate is extracted from bits [31:12].
 - **J-type Instructions:** Immediate is formed by combining bits [31], [19:12], [20], and [30:21].
+</br>
+You'll notice that in this project, I've omitted U-type instructions as I won't be using those to test my CPU.
 
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
