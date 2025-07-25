@@ -95,7 +95,8 @@ begin
                 
             when OP_I_ARITH =>
                 RegWrite <= '1';
-                ALUSrc <= '1'; -- for immediate instructions the second operand is a value, not a register
+                -- for immediate instructions the second operand is a value, not a register
+                ALUSrc <= '1';
                 
                 case funct3 is
                     when F3_ADD_SUB => -- ADDI
