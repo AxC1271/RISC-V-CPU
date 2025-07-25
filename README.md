@@ -8,7 +8,7 @@ This project involves creating a RISC-V compatible CPU on an FPGA, focusing on t
 The hardware component includes:
 - Instruction Memory (RAM): Stores the uploaded program and interacts with the CPU during execution.
 - RISC-V Compatible CPU: Written in VHDL, the CPU begins execution once all instructions are received.
-- </br>
+</br>
 The CPU follows the standard instruction cycle: fetch → decode → execute → memory access → write-back, and interacts with RAM to store computation results.
 
 
