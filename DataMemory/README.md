@@ -68,7 +68,11 @@ Here's the test bench file for the data memory module.
 ## Theoretical Background
 
 ### Purpose
+The data memory is essential for storing and accessing data during program execution. By providing a space for data storage, it enables the CPU to handle variables, arrays, and other data structures efficiently.
+
 ### Operations
+- Load: Retrieves data from specified memory locations using the address input.
+- Store: Writes data to specified memory locations using the address input.
 
 ## Importance
-
+An efficient data memory design is crucial for optimizing CPU performance, as it directly impacts the speed and accuracy of data access and manipulation. Understanding the interaction between the CPU and data memory is key to implementing a RISC-V processor.
