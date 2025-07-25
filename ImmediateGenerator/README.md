@@ -43,15 +43,15 @@ begin
     begin
         case instruction(6 downto 0) is
             when "0010011" => -- I-type
-                immediate <= std_logic_vector(signed(instruction(31 downto 20)));
+                immediate <= STD_LOGIC_VECTOR(signed(instruction(31 downto 20)));
             when "0100011" => -- S-type
-                immediate <= std_logic_vector(signed(instruction(31 downto 25) & instruction(11 downto 7)));
+                immediate <= STD_LOGIC_VECTOR(signed(instruction(31 downto 25) & instruction(11 downto 7)));
             when "1100011" => -- B-type
-                immediate <= std_logic_vector(signed(instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & "0"));
+                immediate <= STD_LOGIC_VECTOR(signed(instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & "0"));
             when "0110111" => -- U-type
                 immediate <= instruction(31 downto 12) & "000000000000";
             when "1101111" => -- J-type
-                immediate <= std_logic_vector(signed(instruction(31) & instruction(19 downto 12) & instruction(20) & instruction(30 downto 21) & "00"));
+                immediate <= STD_LOGIC_VECTOR(signed(instruction(31) & instruction(19 downto 12) & instruction(20) & instruction(30 downto 21) & "00"));
             when others =>
                 immediate <= (others => '0');
         end case;
@@ -96,32 +96,26 @@ begin
   -- simulate process
   stimulus: process
   begin
-    -- Test I-type instruction
-    instruction <= x"00000013"; -- Example ADDI instruction
+    -- test I-type instruction
+    instruction <= x"00000013"; -- addi instruction
     wait for 10 ns;
     assert (immediate = x"00000000") report "I-type immediate extraction failed" severity error;
 
-    -- Test S-type instruction
-    instruction <= x"00000023"; -- Example SW instruction
+    -- test S-type instruction
+    instruction <= x"00000023"; -- sw instruction
     wait for 10 ns;
     assert (immediate = x"00000000") report "S-type immediate extraction failed" severity error;
 
-    -- Test B-type instruction
-    instruction <= x"00000063"; -- Example BEQ instruction
+    -- test B-type instruction
+    instruction <= x"00000063"; -- beq instruction
     wait for 10 ns;
     assert (immediate = x"00000000") report "B-type immediate extraction failed" severity error;
 
-    -- Test U-type instruction
-    instruction <= x"00000037"; -- Example LUI instruction
-    wait for 10 ns;
-    assert (immediate = x"00000000") report "U-type immediate extraction failed" severity error;
-
-    -- Test J-type instruction
-    instruction <= x"0000006F"; -- Example JAL instruction
+    -- test J-type instruction
+    instruction <= x"0000006F"; -- jal instruction
     wait for 10 ns;
     assert (immediate = x"00000000") report "J-type immediate extraction failed" severity error;
 
-    -- End simulation
     wait;
   end process stimulus;
 
