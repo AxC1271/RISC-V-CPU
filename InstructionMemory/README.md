@@ -41,17 +41,7 @@ architecture Behavioral of instruction_memory is
     );
 
 begin
-    process(clk, rst)
-    begin
-        if rst = '1' then
-            instruction <= (others => '0');
-        elsif rising_edge(clk) then
-            -- use the program counter to fetch the instruction
-            -- since the pc is incrementing by 4, exclude the last 2 bits
-            -- so that we're effectively adding by 1 as indices
-            instruction <= instruction_memory(to_integer(unsigned(pc(31 downto 2))));
-        end if;
-    end process;
+    instruction <= instruction_memory(to_integer(unsigned(pc(31 downto 0))));
 end Behavioral;
 ```
 
@@ -70,15 +60,12 @@ architecture Behavioral of instruction_memory_tb is
   -- define the component under test
   component instruction_memory
     port (
-      clk : in STD_LOGIC;
-      rst : in STD_LOGIC;
       pc : in STD_LOGIC_VECTOR(31 downto 0);
       instruction : out STD_LOGIC_VECTOR(31 downto 0)
     );
   end component;
 
   -- define all intermediary signals here
-  signal clk, rst : STD_LOGIC;
   signal pc : STD_LOGIC_VECTOR(31 downto 0);
   signal instruction : STD_LOGIC_VECTOR(31 downto 0);
 
@@ -87,8 +74,6 @@ begin
   -- instantiate the unit under test
   uut : instruction_memory
     port map (
-      clk => clk,
-      rst => rst,
       pc => pc,
       instruction => instruction
     );
@@ -96,11 +81,6 @@ begin
   -- simulate process
   stimulus: process
   begin
-    -- Apply reset
-    rst <= '1';
-    wait for 10 ns;
-    rst <= '0';
-    wait for 10 ns;
 
     -- Test instruction fetch
     pc <= x"00000000";
@@ -118,17 +98,6 @@ begin
     -- End simulation
     wait;
   end process stimulus;
-
-  -- clock generation process
-  clk_process: process
-  begin
-    while true loop
-      clk <= '0';
-      wait for 5 ns;
-      clk <= '1';
-      wait for 5 ns;
-    end loop;
-  end process clk_process;
 
 end Behavioral;
 ```
