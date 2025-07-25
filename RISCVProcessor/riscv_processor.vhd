@@ -10,7 +10,8 @@ entity riscv_processor is
     rst : in STD_LOGIC;
 
     seg : out STD_LOGIC_VECTOR(6 downto 0);
-    ade : out STD_LOGIC_VECTOR(3 downto 0)
+    ade : out STD_LOGIC_VECTOR(3 downto 0);
+    led : out STD_LOGIC_VECTOR(15 downto 0);
   );
 
 end riscv_processor;
