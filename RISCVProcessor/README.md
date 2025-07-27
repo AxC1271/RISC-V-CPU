@@ -353,54 +353,133 @@ end Behavioral;
 ```
 
 ### Memory-Mapped I/O and Assembly
-Writing to the address 0xFFFF0000 triggers a display update on the 7-segment. This mimics a simplified printf() behavior. The goal is to eventually take assembly code like this and convert it into our 32-bit instructions by referring to our ISA.
+Writing to the address 0xFFFF0000 triggers a display update on the 7-segment, which will then mimic a simplified printf() behavior. Here's the C code for our Fibonacci sequence.
 
+```C
+int main() {
+   int a = 0;
+   int b = 1;
+
+   for (int i = 0; i < 10; i++) {
+      sum = a + b;
+      a = b;
+      b = sum;
+      printf("%d\n", sum);
+   }
+   return 0;
+}
+```
+
+Here's the RISC-V assembly equivalent:
 ```asm
-.data
-fib_sequence: .space 40  
-
 .text
 .globl main
 
 main:
-    li $t0, 0          # (first Fibonacci number)
-    li $t1, 1          # (second Fibonacci number)
-    la $t2, fib_sequence # move address of fib_sequence into $t2
-
-    sw $t0, 0($t2)     # store x0 at fib_sequence[0]
-    sw $t1, 4($t2)     # store x1 at fib_sequence[1]
-
-    li $t3, 2          # initialize to 2 (next index in sequence)
+    addi x5, x0, 0      # a = 0 (x5)
+    addi x6, x0, 1      # b = 1 (x6) 
+    addi x8, x0, 0      # i = 0 (x8)
+    addi x9, x0, 10     # loop limit = 10 (x9)
 
 loop:
-    beq $t3, 10, end   # if counter = 10, exit loop
-
-    # find next fib number
-    add $t4, $t0, $t1  # $t4 = x0 + x1
-
-    # store the result in the array
-    sw $t4, 0($t2)     # Store $t4 at fib_sequence[$t3]
-
-    # update x0 and x1 for next iteration
-    move $t0, $t1      # $t0 = $t1
-    move $t1, $t4      # $t1 = $t4
-
-    # increment the counter and array index
-    addi $t3, $t3, 1   # $t3 = $t3 + 1
-    addi $t2, $t2, 4  
-
-    j loop            
-
+    # branch greater than (i < 10)
+    bge x8, x9, end     # if i >= 10, exit loop
+    
+    # sum = a + b
+    add x7, x5, x6      # sum = a + b (x7)
+    
+    # a = b
+    add x5, x6, x0      # a = b
+    
+    # b = sum  
+    add x6, x7, x0      # b = sum
+    
+    # printf("%d\n", sum) - simplified as just storing sum
+    # in real implementation, this would be a system call
+    # i++
+    addi x8, x8, 1      # i = i + 1
+    
+    # jump back to loop
+    jal x0, loop        # goto loop
+    
 end:
-    # 
-    li $v0, 10         # load exit syscall code
-    syscall            
+    # return 0
+    addi x10, x0, 0     # return value = 0
+    # exit (would be system call in real implementation)            
 ```
 
 If you translate that into the 32-bit binary instructions, you'll get:
 
 ```
+# addi x5, x0, 0
+000000000000_00000_000_00101_0010011
 
+= 00000000000000000000001010010011
+
+# addi x6, x0, 1  
+000000000001_00000_000_00110_0010011
+
+= 00000000000100000000001100010011
+
+# addi x8, x0, 0
+000000000000_00000_000_01000_0010011
+
+= 00000000000000000000010000010011
+
+# addi x9, x0, 10
+000000001010_00000_000_01001_0010011
+
+= 00000000101000000000010010010011
+
+# bge x8, x9, end (assuming end is 20 bytes ahead)
+0000000_01001_01000_101_10100_1100011
+
+= 00000000100101000101101001100011
+
+# add x7, x5, x6
+0000000_00110_00101_000_00111_0110011
+
+= 00000000011000101000001110110011
+
+# add x5, x6, x0
+0000000_00000_00110_000_00101_0110011
+
+= 00000000000000110000001010110011
+
+# add x6, x7, x0
+0000000_00000_00111_000_00110_0110011
+
+= 00000000000000111000001100110011
+
+# addi x8, x8, 1
+000000000001_01000_000_01000_0010011
+
+= 00000000000101000000010000010011
+
+# jal x0, loop (jumping back -36 bytes)
+11111111111111011100_00000_1101111
+
+= 11111111111111011100000001101111
+
+# addi x10, x0, 0
+000000000000_00000_000_01010_0010011
+
+= 00000000000000000000010100010011
+```
+
+Finalized 32-bit instructions:
+```
+x00000285  # addi x5, x0, 0
+x00100313  # addi x6, x0, 1
+x00000413  # addi x8, x0, 0
+x00A00493  # addi x9, x0, 10
+x00945463  # bge x8, x9, end
+x006283B3  # add x7, x5, x6
+x000302B3  # add x5, x6, x0
+x00038333  # add x6, x7, x0
+x00140413  # addi x8, x8, 1
+xFDDFF06F  # jal x0, loop
+x00000513  # addi x10, x0, 0
 ```
 
 ## 💡 Importance
