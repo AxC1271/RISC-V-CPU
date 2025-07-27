@@ -352,10 +352,8 @@ begin
 end Behavioral;
 ```
 
-### Memory-Mapped I/O
+### Memory-Mapped I/O and Assembly
 Writing to the address 0xFFFF0000 triggers a display update on the 7-segment. This mimics a simplified printf() behavior.
-
-Here, I've provided a working demo of the RISC-V processor handling the following assembly file. I want the FPGA board to "print" the first ten Fibonacci numbers.
 
 ```asm
 .data
@@ -408,13 +406,13 @@ If you translate that into the 32-bit binary instructions, you'll get:
 ## 💡 Importance
 This top-level module:
 
-Integrates and coordinates the entire RISC-V CPU pipeline.
+- Integrates and coordinates the entire RISC-V CPU pipeline.
 
-Provides observable hardware debugging tools.
+- Provides observable hardware debugging tools.
 
-Enables hands-on education in ISA-level design and hardware-software integration.
+- Enables hands-on education in ISA-level design and hardware-software integration.
 
-Serves as a template for expanding the CPU with pipelining, caching, or interrupt handling.
+- Serves as a template for expanding the CPU with pipelining, caching, or interrupt handling.
 
 ## 🛠️ Requirements
 - Vivado or compatible VHDL toolchain
@@ -424,4 +422,8 @@ Serves as a template for expanding the CPU with pipelining, caching, or interrup
 - Simulation testbench files
 
 - Instruction binary for loading into memory
+
+## Video Demo
+
+Here, I've provided a working demo of the RISC-V processor handling the following assembly file. I want the FPGA board to "print" the first ten Fibonacci numbers.
 
