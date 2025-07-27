@@ -178,7 +178,8 @@ begin
     assert read_data1 = x"00000000" report "Read from reg 0 failed" severity error;
 
     -- end simulation
-    wait;
+    wait for 100 ns;
+    assert false report "Simulation finished." severity failure;
   end process stimulus;
 
   -- clock generation process
