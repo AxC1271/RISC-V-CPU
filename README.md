@@ -32,6 +32,24 @@ The ALU performs all mathematical computations within the CPU, including additio
 ### Datapath
 The datapath takes the results from the ALU and control flags to determine where to write back to the register files, completing the CPU execution cycle.
 
----
+## Software Implementation
+Eventually, the goal is to take any simple C code (for the video demo we'll use the following provided C code) and convert it to the 32-bit instructions necessary for the CPU to perform calculations.
+
+```C
+int main() {
+   int a = 0;
+   int b = 1;
+   int sum = 1;
+
+   for (int i = 0; i < 10; i++) {
+      sum = a + b;
+      a = b;
+      b = sum;
+      printf("%d\n", sum);
+   }
+   return 0;
+}
+```
+--- 
 
 Please go into each subproject folder to see more in detail.
