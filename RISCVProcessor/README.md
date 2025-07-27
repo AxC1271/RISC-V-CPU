@@ -353,7 +353,7 @@ end Behavioral;
 ```
 
 ### Memory-Mapped I/O and Assembly
-Writing to the address 0xFFFF0000 triggers a display update on the 7-segment. This mimics a simplified printf() behavior.
+Writing to the address 0xFFFF0000 triggers a display update on the 7-segment. This mimics a simplified printf() behavior. The goal is to eventually take assembly code like this and convert it into our 32-bit instructions by referring to our ISA.
 
 ```asm
 .data
