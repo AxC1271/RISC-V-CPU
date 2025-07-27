@@ -359,6 +359,7 @@ Writing to the address 0xFFFF0000 triggers a display update on the 7-segment, wh
 int main() {
    int a = 0;
    int b = 1;
+   int sum = 1;
 
    for (int i = 0; i < 10; i++) {
       sum = a + b;
