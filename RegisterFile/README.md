@@ -196,8 +196,11 @@ begin
 end Behavioral;
 ```
 
+<br/>
 Here are the waveforms on Vivado to show proof of correctness.
 <img src="./Waveform.png" />
+
+<br/>
 
 ## Theoretical Background
 
