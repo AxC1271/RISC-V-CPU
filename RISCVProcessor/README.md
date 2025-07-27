@@ -29,6 +29,7 @@ When deployed on hardware, the 1 Hz slow clock allows visual step-by-step execut
 
 ### Block Diagram
 <img src="../riscv-architecture.png" />
+
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
