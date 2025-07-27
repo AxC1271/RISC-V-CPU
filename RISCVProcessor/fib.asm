@@ -19,16 +19,12 @@ loop:
     
     # b = sum  
     add x6, x7, x0      # b = sum
-    
-    # printf("%d\n", sum) - simplified as just storing sum
-    # in real implementation, this would be a system call
-    # i++
+
     addi x8, x8, 1      # i = i + 1
     
     # jump back to loop
-    jal x0, loop        # goto loop
+    jal x0, loop       
     
 end:
-    # return 0
     addi x10, x0, 0     # return value = 0
-    # exit (would be system call in real implementation)            
+    syscall
