@@ -140,7 +140,6 @@ end Behavioral;
 
 Here's the subsequent waveform of that test bench for the immediate generator.
 
-<img src="./Waveform.png" />
 
 ## Theoretical Background
 
