@@ -1,39 +1,34 @@
-.data
-fib_sequence: .space 40  
-
 .text
 .globl main
 
 main:
-    li $t0, 0          # (first Fibonacci number)
-    li $t1, 1          # (second Fibonacci number)
-    la $t2, fib_sequence # move address of fib_sequence into $t2
-
-    sw $t0, 0($t2)     # store x0 at fib_sequence[0]
-    sw $t1, 4($t2)     # store x1 at fib_sequence[1]
-
-    li $t3, 2          # initialize to 2 (next index in sequence)
+    addi x5, x0, 0      # a = 0 (x5)
+    addi x6, x0, 1      # b = 1 (x6) 
+    addi x8, x0, 0      # i = 0 (x8)
+    addi x9, x0, 10     # loop limit = 10 (x9)
 
 loop:
-    beq $t3, 10, end   # if counter = 10, exit loop
-
-    # find next fib number
-    add $t4, $t0, $t1  # $t4 = x0 + x1
-
-    # store the result in the array
-    sw $t4, 0($t2)     # Store $t4 at fib_sequence[$t3]
-
-    # update x0 and x1 for next iteration
-    move $t0, $t1      # $t0 = $t1
-    move $t1, $t4      # $t1 = $t4
-
-    # increment the counter and array index
-    addi $t3, $t3, 1   # $t3 = $t3 + 1
-    addi $t2, $t2, 4  
-
-    j loop            
-
+    # branch greater than (i < 10)
+    bge x8, x9, end     # if i >= 10, exit loop
+    
+    # sum = a + b
+    add x7, x5, x6      # sum = a + b (x7)
+    
+    # a = b
+    add x5, x6, x0      # a = b
+    
+    # b = sum  
+    add x6, x7, x0      # b = sum
+    
+    # printf("%d\n", sum) - simplified as just storing sum
+    # in real implementation, this would be a system call
+    # i++
+    addi x8, x8, 1      # i = i + 1
+    
+    # jump back to loop
+    jal x0, loop        # goto loop
+    
 end:
-    # 
-    li $v0, 10         # load exit syscall code
-    syscall            
+    # return 0
+    addi x10, x0, 0     # return value = 0
+    # exit (would be system call in real implementation)            
