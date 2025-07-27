@@ -28,7 +28,7 @@ Simulation and hardware debugging strategies:
 When deployed on hardware, the 1 Hz slow clock allows visual step-by-step execution of instructions using visible LEDs and 7-segment display output.
 
 ### Block Diagram
-
+<img src="../riscv-architecture.png" />
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
