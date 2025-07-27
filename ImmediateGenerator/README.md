@@ -40,18 +40,28 @@ end immediate_generator;
 architecture Behavioral of immediate_generator is
 begin
     process(instruction)
+        variable imm_i  : signed(31 downto 0);
+        variable imm_s  : signed(31 downto 0);
+        variable imm_b  : signed(31 downto 0);
+        variable imm_j  : signed(31 downto 0);
     begin
         case instruction(6 downto 0) is
             when "0010011" => -- I-type
-                immediate <= STD_LOGIC_VECTOR(signed(instruction(31 downto 20)));
+                imm_i := resize(signed(instruction(31 downto 20)), 32);
+                immediate <= std_logic_vector(imm_i);
+
             when "0100011" => -- S-type
-                immediate <= STD_LOGIC_VECTOR(signed(instruction(31 downto 25) & instruction(11 downto 7)));
+                imm_s := resize(signed(instruction(31 downto 25) & instruction(11 downto 7)), 32);
+                immediate <= std_logic_vector(imm_s);
+
             when "1100011" => -- B-type
-                immediate <= STD_LOGIC_VECTOR(signed(instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & "0"));
-            when "0110111" => -- U-type
-                immediate <= instruction(31 downto 12) & "000000000000";
+                imm_b := resize(signed(instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & '0'), 32);
+                immediate <= std_logic_vector(imm_b);
+
             when "1101111" => -- J-type
-                immediate <= STD_LOGIC_VECTOR(signed(instruction(31) & instruction(19 downto 12) & instruction(20) & instruction(30 downto 21) & "00"));
+                imm_j := resize(signed(instruction(31) & instruction(19 downto 12) & instruction(20) & instruction(30 downto 21) & "00"), 32);
+                immediate <= std_logic_vector(imm_j);
+
             when others =>
                 immediate <= (others => '0');
         end case;
@@ -72,52 +82,56 @@ entity immediate_generator_tb is
 end immediate_generator_tb;
 
 architecture Behavioral of immediate_generator_tb is
-  -- define the component under test
+
+  -- component declaration
   component immediate_generator
     port (
       instruction : in STD_LOGIC_VECTOR(31 downto 0);
-      immediate : out STD_LOGIC_VECTOR(31 downto 0)
+      immediate   : out STD_LOGIC_VECTOR(31 downto 0)
     );
   end component;
 
-  -- define all intermediary signals here
+  -- internal signals
   signal instruction : STD_LOGIC_VECTOR(31 downto 0);
-  signal immediate : STD_LOGIC_VECTOR(31 downto 0);
+  signal immediate   : STD_LOGIC_VECTOR(31 downto 0);
 
-  -- start simulation here
 begin
-  -- instantiate the unit under test
-  uut : immediate_generator
+  -- instantiate component here
+  uut: immediate_generator
     port map (
       instruction => instruction,
-      immediate => immediate
+      immediate   => immediate
     );
 
-  -- simulate process
   stimulus: process
   begin
-    -- test I-type instruction
-    instruction <= x"00000013"; -- addi instruction
+    -- I-type: addi x1, x2, 5 (imm = 5)
+    instruction <= x"00510113";
     wait for 10 ns;
-    assert (immediate = x"00000000") report "I-type immediate extraction failed" severity error;
+    assert (immediate = x"00000005")
+      report "I-type immediate extraction failed" severity error;
 
-    -- test S-type instruction
-    instruction <= x"00000023"; -- sw instruction
+    -- S-type: sw x1, 8(x2) (imm = 8)
+    instruction <= x"00112023";
     wait for 10 ns;
-    assert (immediate = x"00000000") report "S-type immediate extraction failed" severity error;
+    assert (immediate = x"00000008")
+      report "S-type immediate extraction failed" severity error;
 
-    -- test B-type instruction
-    instruction <= x"00000063"; -- beq instruction
+    -- B-type: beq x1, x2, 8 (imm = 8)
+    instruction <= x"00208263";
     wait for 10 ns;
-    assert (immediate = x"00000000") report "B-type immediate extraction failed" severity error;
+    assert (immediate = x"00000008")
+      report "B-type immediate extraction failed" severity error;
 
-    -- test J-type instruction
-    instruction <= x"0000006F"; -- jal instruction
+    -- J-type: jal x1, 16 (imm = 16)
+    instruction <= x"010000EF";
     wait for 10 ns;
-    assert (immediate = x"00000000") report "J-type immediate extraction failed" severity error;
+    assert (immediate = x"00000010")
+      report "J-type immediate extraction failed" severity error;
 
+    report "All immediate extraction tests passed!";
     wait;
-  end process stimulus;
+  end process;
 
 end Behavioral;
 ```
