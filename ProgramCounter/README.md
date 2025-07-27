@@ -113,26 +113,28 @@ begin
     -- test simulation here
     stimulus: process
     begin
-        -- apply reset
+        -- Apply reset and allow reset to take effect
         rst <= '1';
         wait for clk_period;
         rst <= '0';
         wait for clk_period;
 
-        -- try updating PC with new values
+        -- test case #1: Set PC to 0x00000004
         pc_src <= x"00000004";
         wait for clk_period;
         assert (pc = x"00000004") report "PC update failed at 4" severity error;
 
+        -- test case #2: Set PC to 0x00000008
         pc_src <= x"00000008";
         wait for clk_period;
         assert (pc = x"00000008") report "PC update failed at 8" severity error;
 
+        -- test case #3: Set PC to 0x0000000C
         pc_src <= x"0000000C";
         wait for clk_period;
         assert (pc = x"0000000C") report "PC update failed at C" severity error;
 
-        -- test reset functionality again
+        -- test case #4: Reset again and check PC returns to zero
         rst <= '1';
         wait for clk_period;
         assert (pc = x"00000000") report "PC reset failed" severity error;
@@ -140,8 +142,7 @@ begin
         wait for clk_period;
 
         wait;
-    end process stimulus;
-
+    end process;
 end Behavioral;
 ```
 
