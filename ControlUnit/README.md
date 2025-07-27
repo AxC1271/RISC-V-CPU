@@ -74,7 +74,7 @@ begin
         case opcode is
             when OP_R_TYPE =>
                 RegWrite <= '1';
-                ALUSrc <= '0'; -- two registers, I'll denote 0 to denote there's a second register operand
+                ALUSrc <= '0'; -- two registers, I'll use 0 to denote there's a second register operand
                 
                 case funct3 is
                     when F3_ADD_SUB =>
@@ -123,14 +123,14 @@ begin
                 ALUCont <= "001"; 
                 
             when OP_JAL =>
-                RegWrite <= '1'; -- Write return address to register
-                jmp <= '1';      -- Indicate jump
-                ALUSrc <= '1';   -- Use immediate for jump address
+                RegWrite <= '1'; 
+                jmp <= '1';     
+                ALUSrc <= '1';  
                 
             when OP_JALR =>
-                RegWrite <= '1'; -- Write return address to register
-                jmp <= '1';      -- Indicate jump
-                ALUSrc <= '1';   -- Use register for jump address
+                RegWrite <= '1'; 
+                jmp <= '1';   
+                ALUSrc <= '1';
                 
             when others =>
                 null;
