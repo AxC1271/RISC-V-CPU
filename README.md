@@ -6,6 +6,7 @@ This project involves creating a RISC-V compatible CPU on an FPGA, focusing on t
 
 ## CPU Architecture Theory
 <img src="./riscv-architecture.png" />
+
 ### Instruction Memory
 The instruction memory is crucial for loading instructions onto the FPGA via UART. It works in tandem with a receiver that writes to memory whenever the valid flag is asserted. The program counter (PC) reads the address of the instruction, which is then pipelined into the instruction register and control unit.
 
