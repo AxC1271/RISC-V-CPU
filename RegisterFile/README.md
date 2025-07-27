@@ -201,6 +201,8 @@ Here are the waveforms on Vivado to show proof of correctness.
 <br/>
 
 <img src="./Waveform.png" />
+
+*Figure 1: Simulation waveform shows the register file module behaving as expected.*
 <br/>
 
 ## Theoretical Background
