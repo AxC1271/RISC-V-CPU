@@ -355,7 +355,7 @@ end Behavioral;
 ### Memory-Mapped I/O
 Writing to the address 0xFFFF0000 triggers a display update on the 7-segment. This mimics a simplified printf() behavior.
 
-Here, I've provided a working demo of the RISC-V processor handling the following assembly file:
+Here, I've provided a working demo of the RISC-V processor handling the following assembly file. I want the FPGA board to "print" the first ten Fibonacci numbers.
 
 ```asm
 .data
