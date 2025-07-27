@@ -22,6 +22,8 @@ The immediate value is extracted based on the instruction format, which varies f
 </br>
 You'll notice that in this project, I've omitted U-type instructions as I won't be using those to test my CPU.
 
+### Block Diagram
+
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
@@ -135,6 +137,10 @@ begin
 
 end Behavioral;
 ```
+
+### Waveform
+
+<img src="./Waveform.png" />
 
 ## Theoretical Background
 
