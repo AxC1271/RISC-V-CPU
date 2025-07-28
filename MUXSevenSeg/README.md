@@ -31,3 +31,7 @@ To use the seven-segment multiplexer display in your RISC-V CPU project:
 1. Connect the Display: Ensure the display is properly connected to the relevant data outputs and control signals from the CPU.
 2. Configure Multiplexing: Set up the multiplexing logic to cycle through the desired data outputs.
 3. Monitor Outputs: Use the display to observe and verify CPU operations during development and testing.
+
+---
+
+Feel free to explore the project files for more detailed information on implementation and integration. This display is a valuable tool for enhancing the development and debugging process of the RISC-V CPU.
