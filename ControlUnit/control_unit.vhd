@@ -52,6 +52,7 @@ begin
         ALUSrc <= '0';
         ALUCont <= "000";
         jmp <= '0';
+        print <= '0';
         
         case opcode is
             when OP_R_TYPE =>
