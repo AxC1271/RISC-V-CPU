@@ -119,25 +119,25 @@ int main() {
 
 Referring to my custom made ISA for this CPU implementation, I have the following instructions:
 ```asm
--- define x0 as the zero register
--- define x1 as the first Fibonacci number
--- define x2 as the second Fibonacci number
--- define x3 as the temp printed value
--- define x4 as i
--- define x5 as limit of loop
+; define x0 as the zero register
+; define x1 as the first Fibonacci number
+; define x2 as the second Fibonacci number
+; define x3 as the temp printed value
+; define x4 as i
+; define x5 as limit of loop
 
-0. addi x1, x0, 0   -- load register 1 as 0
-1. addi x2, x0, 1   -- load register 2 as 1
-2. addi x4, x0, 0   -- load register 4 as i
-3. addi x5, x0, 11  -- define end of loop as 11
-4. beq x4, x5, 11   -- compares x4 and x5 if equal
-5. add x3, x1, x2   -- x3 = x1 + x2
-6. addi x1, x2, 0   -- x1 = x2
-7. addi x2, x3, 0   -- x3 = x2
-8. prnt x3          -- print out x3 on hex display
-9. addi x4, x4, 1   -- increment i
-10. beq x0, x0, 4   -- unskippable unless initial branch condition skips it
-11  beq x0, x0, 0   -- loop around
+0. addi x1, x0, 0   ; load register 1 as 0
+1. addi x2, x0, 1   ; load register 2 as 1
+2. addi x4, x0, 0   ; load register 4 as i
+3. addi x5, x0, 11  ; define end of loop as 11
+4. beq x4, x5, 11   ; compares x4 and x5 if equal
+5. add x3, x1, x2   ; x3 = x1 + x2
+6. addi x1, x2, 0   ; x1 = x2
+7. addi x2, x3, 0   ; x3 = x2
+8. prnt x3          ; print out x3 on hex display
+9. addi x4, x4, 1   ; increment i
+10. beq x0, x0, 4   ; unskippable unless initial branch condition skips it
+11  beq x0, x0, 0   ; loop around
 ```
 
 Now, if we convert them to the 32-bit binary instructions referring to the instruction format of RISC-V (and nmy custom print function), we'll get:
