@@ -8,17 +8,17 @@ set_property PACKAGE_PIN R2 [get_ports rst]
 set_property IOSTANDARD LVCMOS33 [get_ports rst]
 
 foreach i {0 1 2 3 4 5 6} {
-  set_property IOSTANDARD LVCMOS [get_ports{seg[$i]}]
+  set_property IOSTANDARD LVCMOS33 [get_ports{seg[$i]}]
 }
 
 
-set_property IOSTANDARD LVCMOS33 [get_ports{seg[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports{seg[1]}]
-set_property IOSTANDARD LVCMOS33 [get_ports{seg[2]}]
-set_property IOSTANDARD LVCMOS33 [get_ports{seg[3]}]
-set_property IOSTANDARD LVCMOS33 [get_ports{seg[4]}]
-set_property IOSTANDARD LVCMOS33 [get_ports{seg[5]}]
-set_property IOSTANDARD LVCMOS33 [get_ports{seg[6]}]
+set_property PACKAGE_PIN U7 [get_ports{seg[0]}]
+set_property PACKAGE_PIN V5 [get_ports{seg[1]}]
+set_property PACKAGE_PIN U5 [get_ports{seg[2]}]
+set_property PACKAGE_PIN V8 [get_ports{seg[3]}]
+set_property PACKAGE_PIN U8 [get_ports{seg[4]}]
+set_property PACKAGE_PIN W6 [get_ports{seg[5]}]
+set_property PACKAGE_PIN W7 [get_ports{seg[6]}]
 
 
 set_property PACKAGE_PIN U2 [get_ports {ade[0]}]
