@@ -25,7 +25,7 @@ Simulation and hardware debugging strategies:
   - LED display for instruction counter.
   - 7-segment output for printf values.
 
-When deployed on hardware, the 1 Hz slow clock allows visual step-by-step execution of instructions using visible LEDs and 7-segment display output.
+When deployed on hardware, the 2 Hz slow clock allows visual step-by-step execution of instructions using visible LEDs and 7-segment display output.
 
 ### Block Diagram
 <img src="../riscv-architecture.png" />
