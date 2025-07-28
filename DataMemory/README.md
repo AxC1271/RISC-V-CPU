@@ -44,7 +44,7 @@ begin
             memory <= (others => (others => '0'));
         elsif rising_edge(clk) then
             if mem_write = '1' then
-                memory(to_integer(unsigned(address(31 downto 2)))) <= write_data;
+                memory(to_integer(unsigned(address))) <= write_data;
             end if;
         end if;
     end process;
@@ -53,7 +53,7 @@ begin
     begin
         if rising_edge(clk) then
             if mem_read = '1' then
-                read_data <= memory(to_integer(unsigned(address(31 downto 2))));
+                read_data <= memory(to_integer(unsigned(address)));
             else
                 read_data <= (others => '0');
             end if;
