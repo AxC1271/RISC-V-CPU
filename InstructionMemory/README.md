@@ -167,7 +167,7 @@ On memory 4, we need to branch to memory 7 if the beq is satisfied. That means o
         immediate <= std_logic_vector(imm_b);
 ```
 
-This gives the instruction `0000000_00101_00100_000_00110_1100011'.
+This gives the instruction `0000000_00101_00100_000_00110_1100011`.
 
 For memory 10, we need to branch to memory 4, giving us -6. We will get the two's complement of 6 in binary then add it to the current program counter to get back to 6. Unfortunately, the issue I faced was that the program counter is a `32-bit standard logic vector` whereas the `immediate shift` was only 12 bits.
 
