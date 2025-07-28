@@ -100,6 +100,46 @@ begin
 end Behavioral;
 ```
 
+In this demo, we would load the following C program to print out a Fibonacci sequence:
+
+```C
+# Simple C program to print out the Fibonacci sequence
+int main() {
+    int a = 0;
+    int b = 1;
+    int fib = 0;
+    for (int i = 0; i < 11; i++) {
+        fib = a + b;
+        a = b;
+        b = fib;
+        print(fib);
+    }
+}
+```
+
+Referring to my custom made ISA for this CPU implementation, I have the following instructions:
+```asm
+-- define x0 as the zero register
+-- define x1 as the first Fibonacci number
+-- define x2 as the second Fibonacci number
+-- define x3 as the temp printed value
+-- define x4 as i
+-- define x5 as limit of loop
+
+addi x1, x0, 0  -- load register 1 as 0
+addi x2, x0, 1  -- load register 2 as 1
+addi x4, x0, 0  -- load register 4 as i
+addi x5, x0, 11 -- define end of loop as 11
+beq x4, x5, 11  -- compares x4 and x5 if equal
+add x3, x1, x2  -- x3 = x1 + x2
+addi x1, x2, 0  -- x1 = x2
+addi x2, x3, 0  -- x3 = x2
+prnt x3         -- print out x3 on hex display
+addi x4, x4, 1  -- increment i
+beq x0, x0, 4   -- unskippable unless initial branch condition skips it
+
+```
+
 ## Theoretical Background
 ### Purpose
 The instruction memory is essential for storing the program's instructions and supplying them to the CPU for execution. By maintaining a set of instructions, it ensures that the CPU can perform operations as intended.
