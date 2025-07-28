@@ -322,7 +322,7 @@ end Behavioral;
 ```
 
 ### Script for the CPU
-Here's the C code for our Fibonacci sequence. To find how I derived the 32-bit instructions in binary, check out the InstructionMemory module.
+Here's the C code for our Fibonacci sequence. To find how I derived the 32-bit instructions in binary, check out the [InstructionMemory](../InstructionMemory) module.
 
 ```C
 // Simple C program to print out the Fibonacci sequence
@@ -338,6 +338,8 @@ int main() {
     }
 }
 ```
+
+
 
 ```binary
 // Converted binary instructions
