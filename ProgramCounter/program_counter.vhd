@@ -9,14 +9,14 @@ entity program_counter is
     port (
         clk : in STD_LOGIC; -- make sure to make this clock slow
         rst : in STD_LOGIC;
-        pc_src : in STD_LOGIC_VECTOR(31 downto 0);  -- new PC value from branch/jump
-        pc : out STD_LOGIC_VECTOR(31 downto 0)      -- current PC value
+        pc_src : in STD_LOGIC_VECTOR(11 downto 0);  -- new PC value from branch/jump
+        pc : out STD_LOGIC_VECTOR(11 downto 0)      -- current PC value
     );
 end program_counter;
 
 architecture Behavioral of program_counter is
-    signal curr_pc : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
-    constant RESET_PC : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
+    signal curr_pc : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
+    constant RESET_PC : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
     
 begin
     -- PC update process
