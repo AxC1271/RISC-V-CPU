@@ -338,22 +338,20 @@ int main() {
     }
 }
 ```
-
-
-
-```binary
-// Converted binary instructions
+<br/>
+```
+// Converted Binary Instructions
 0.  x00000093
 1.  x00100113
 2.  x00000213
 3.  x00B00293
-4.  x00520363
+4.  x005201E3
 5.  x002081B3
 6.  x00010093
 7.  x00018113
 8.  x0001807F
 9.  x00120213
-10. xFE000AE3
+10. xFE000D63
 11. x00000063
 ```
 
