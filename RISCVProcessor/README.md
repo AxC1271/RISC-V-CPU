@@ -325,7 +325,7 @@ end Behavioral;
 Here's the C code for our Fibonacci sequence. To find how I derived the 32-bit instructions in binary, check out the InstructionMemory module.
 
 ```C
-# Simple C program to print out the Fibonacci sequence
+// Simple C program to print out the Fibonacci sequence
 int main() {
     int a = 0;
     int b = 1;
@@ -340,6 +340,7 @@ int main() {
 ```
 
 ```binary
+// Converted binary instructions
 0.  x00000093
 1.  x00100113
 2.  x00000213
