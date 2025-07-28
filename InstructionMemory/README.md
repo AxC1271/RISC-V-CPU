@@ -163,16 +163,16 @@ On memory 4, we need to branch to memory 7 if the `BEQ` is satisfied. That means
 
 ```VHDL
      when "1100011" => -- B-type
-        immediate <= std_logic_vector(signed(instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & "0"));
+        immediate <= std_logic_vector(signed(instruction(31 downto 25));
 ```
 
-This gives the instruction `0000000_00101_00100_000_00110_1100011`.
+This gives the instruction `0000000_00101_00100_000_00011_1100011`.
 
 For memory 10, we need to branch to memory 4, giving us -6. We will get the two's complement of 6 in binary then add it to the current program counter to get back to 6. Unfortunately, the issue I faced was that the program counter is a `32-bit standard logic vector` whereas the `immediate shift` was only 12 bits.
 
 Therefore the design choice for the final CPU was to make the PC only 12 bits wide, which isn't much of a limitation due to the fact that `2**12` instructions is not much of a limitation given the scope of this project.
 
-With this issue resolved, we can determine that the two's complement of 6 in binary is `111111111010`. We can add this back on memory 10 for it overflow back to memory 4, so our final instruction is `1111111_00000_00000_000_10101_1100011`.
+With this issue resolved, we can determine that the two's complement of 6 in binary is `111111111010`. We can add this back on memory 10 for it overflow back to memory 4, so our final instruction is `1111111_00000_00000_000_11010_1100011`.
 
 Finalized Instructions for Our Fibonacci Sequence:
 ```
@@ -180,13 +180,13 @@ Finalized Instructions for Our Fibonacci Sequence:
 1.  000000000001_00000_000_00010_0010011   -- addi x2, x0, 1
 2.  000000000000_00000_000_00100_0010011   -- addi x4, x0, 0
 3.  000000001011_00000_000_00101_0010011   -- addi x5, x0, 11
-4.  0000000_00101_00100_000_00110_1100011  -- beq x4, x5, 11
+4.  0000000_00101_00100_000_00011_1100011  -- beq x4, x5, 11
 5.  0000000_00010_00001_000_00011_0110011  -- add x3, x1, x2
 6.  000000000000_00010_000_00001_0010011   -- addi x1, x2, 0
 7.  000000000000_00011_000_00010_0010011   -- addi x2, x3, 0
 8.  000000000000_00011_000_00000_1111111   -- prnt x3
 9.  000000000001_00100_000_00100_0010011   -- addi x4, x4, 0
-10. 1111111_00000_00000_000_10101_1100011 -- beq x0, x0, 4
+10. 1111111_00000_00000_000_11010_1100011 -- beq x0, x0, 4
 11. 0000000_00000_00000_000_00000_1100011  -- beq x0, x0, 0
 ```
 
@@ -196,13 +196,13 @@ Finalized Hexadecimal Instructions for Compactness:
 1.  x0000_0000_0001_0000_0000_0001_0001_0011 = x00100113
 2.  x0000_0000_0000_0000_0000_0010_0001_0011 = x00000213
 3.  x0000_0000_1011_0000_0000_0010_1001_0011 = x00B00293
-4.  x0000_0000_0101_0010_0000_0011_0110_0011 = x00520363
+4.  x0000_0000_0101_0010_0000_0001_1110_0011 = x005201E3
 5.  x0000_0000_0010_0000_1000_0001_1011_0011 = x002081B3
 6.  x0000_0000_0000_0001_0000_0000_1001_0011 = x00010093
 7.  x0000_0000_0000_0001_1000_0001_0001_0011 = x00018113
 8.  x0000_0000_0000_0001_1000_0000_0111_1111 = x0001807F
 9.  x0000_0000_0001_0010_0000_0010_0001_0011 = x00120213
-10. x1111_1110_0000_0000_0000_1010_1110_0011 = xFE000AE3
+10. x1111_1110_0000_0000_0000_1101_0110_0011 = xFE000D63
 11. x0000_0000_0000_0000_0000_0000_0110_0011 = x00000063
 ```
 
