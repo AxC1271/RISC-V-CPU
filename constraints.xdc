@@ -43,11 +43,7 @@ set_property PACKAGE_PIN V14 [get_ports {led[8]}]
 set_property PACKAGE_PIN U14 [get_ports {led[9]}]
 set_property PACKAGE_PIN U15 [get_ports {led[10]}]
 set_property PACKAGE_PIN W18 [get_ports {led[11]}]
-set_property PACKAGE_PIN V19 [get_ports {led[12]}]
-set_property PACKAGE_PIN U19 [get_ports {led[13]}]
-set_property PACKAGE_PIN E19 [get_ports {led[14]}]
-set_property PACKAGE_PIN U16 [get_ports {led[15]}]
 
-foreach i {0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15} {
+foreach i {0 1 2 3 4 5 6 7 8 9 10 11} {
     set_property IOSTANDARD LVCMOS33 [get_ports {led[$i]}]
 }
