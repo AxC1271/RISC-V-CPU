@@ -330,11 +330,12 @@ int main() {
     int a = 0;
     int b = 1;
     int fib = 0;
+
     for (int i = 0; i < 11; i++) {
         fib = a + b;
         a = b;
         b = fib;
-        print(fib);
+        printf("%d\n", fib);
     }
 }
 ```
