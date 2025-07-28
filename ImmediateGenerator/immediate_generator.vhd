@@ -12,28 +12,16 @@ end immediate_generator;
 architecture Behavioral of immediate_generator is
 begin
     process(instruction)
-        variable imm_i  : signed(31 downto 0);
-        variable imm_s  : signed(31 downto 0);
-        variable imm_b  : signed(31 downto 0);
-        variable imm_j  : signed(31 downto 0);
     begin
         case instruction(6 downto 0) is
             when "0010011" => -- I-type
-                imm_i := resize(signed(instruction(31 downto 20)), 32);
-                immediate <= std_logic_vector(imm_i);
-
+                immediate <= std_logic_vector(signed(instruction(31 downto 20)));
             when "0100011" => -- S-type
-                imm_s := resize(signed(instruction(31 downto 25) & instruction(11 downto 7)), 32);
-                immediate <= std_logic_vector(imm_s);
-
+                immediate <= std_logic_vector(signed(instruction(31 downto 25) & instruction(11 downto 7)));
             when "1100011" => -- B-type
-                imm_b := resize(signed(instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & '0'), 32);
-                immediate <= std_logic_vector(imm_b);
-
+                immediate <= std_logic_vector(signed(instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & "0"));
             when "1101111" => -- J-type
-                imm_j := resize(signed(instruction(31) & instruction(19 downto 12) & instruction(20) & instruction(30 downto 21) & "00"), 32);
-                immediate <= std_logic_vector(imm_j);
-
+                immediate <= std_logic_vector(signed(instruction(31) & instruction(19 downto 12) & instruction(20) & instruction(30 downto 21) & "0"));
             when others =>
                 immediate <= (others => '0');
         end case;
