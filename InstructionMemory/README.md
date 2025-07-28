@@ -115,6 +115,8 @@ int main() {
         b = fib;
         printf("%d\n", fib);
     }
+
+    return 0;
 }
 ```
 
