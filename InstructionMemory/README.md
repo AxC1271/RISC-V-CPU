@@ -159,7 +159,7 @@ Now, if we convert them to the 32-bit binary instructions referring to the instr
 
 Let's quickly figure out our immediate values for the branch instructions on lines 4 and 10.
 
-On memory 4, we need to branch to memory 7 if the beq is satisfied. That means our immediate value is 3, or 000000000011 in binary. The way our immediate generator derives the immediate value from a branch type instruction is as follows:
+On memory 4, we need to branch to memory 7 if the `BEQ` is satisfied. That means our immediate value is 3, or `x00000003` in binary. The way our immediate generator derives the immediate value from a branch type instruction is as follows:
 
 ```VHDL
      when "1100011" => -- B-type
