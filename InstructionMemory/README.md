@@ -103,16 +103,17 @@ end Behavioral;
 In this demo, we would load the following C program to print out a Fibonacci sequence:
 
 ```C
-# Simple C program to print out the Fibonacci sequence
+// Simple C program to print out the Fibonacci sequence
 int main() {
     int a = 0;
     int b = 1;
     int fib = 0;
+
     for (int i = 0; i < 11; i++) {
         fib = a + b;
         a = b;
         b = fib;
-        print(fib);
+        printf("%d\n", fib);
     }
 }
 ```
