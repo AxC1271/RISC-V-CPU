@@ -21,7 +21,7 @@ architecture Behavioral of seven_seg_mux is
   -- define intermediary signals here
   signal seg_clk : STD_LOGIC := '0';
   signal seg_i : STD_LOGIC_VECTOR(6 downto 0) := "1111110";
-  signal ade_i : STD_LGOIC_VECTOR(3 downto 0) :=  "1110";
+  signal ade_i : STD_LOGIC_VECTOR(3 downto 0) :=  "1110";
   signal clk_cnt : integer range 0 to clk_max := 0;
 
   -- this is the intermediary value that we will display
@@ -54,9 +54,9 @@ begin
         when "1101" =>
           ade_i <= "1011";
         when "1011" =>
-          ade <= "0111";
+          ade_i <= "0111";
         when others =>
-          ade <= "1110";
+          ade_i <= "1110";
       end case;
   end process anode_mux;
 
