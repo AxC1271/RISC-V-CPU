@@ -6,18 +6,19 @@ use IEEE.NUMERIC_STD.ALL;
 -- Supports ADD, SUB, AND, OR, XOR, ADDI, LW, SW, BEQ, JAL, JALR
 entity control_unit is
     port (
-        opcode : in STD_LOGIC_VECTOR(6 downto 0);  -- bits [6:0] - RISC-V uses 7 bits
-        funct3 : in STD_LOGIC_VECTOR(2 downto 0);  -- bits [14:12]
-        funct7 : in STD_LOGIC_VECTOR(6 downto 0);  -- bits [31:25]
+        opcode : in STD_LOGIC_VECTOR(6 downto 0);        -- bits [6:0] - RISC-V uses 7 bits
+        funct3 : in STD_LOGIC_VECTOR(2 downto 0);        -- bits [14:12]
+        funct7 : in STD_LOGIC_VECTOR(6 downto 0);        -- bits [31:25]
         
-        RegWrite     : out STD_LOGIC;               -- write to register file
-        MemRead      : out STD_LOGIC;               -- read from memory
-        MemWrite     : out STD_LOGIC;               -- write to memory
-        BranchEq     : out STD_LOGIC;               -- branch equal (BEQ)
-        memToReg     : out STD_LOGIC;               -- select memory data for writeback
-        ALUSrc       : out STD_LOGIC;               -- select immediate for ALU
+        RegWrite     : out STD_LOGIC;                    -- write to register file
+        MemRead      : out STD_LOGIC;                    -- read from memory
+        MemWrite     : out STD_LOGIC;                    -- write to memory
+        BranchEq     : out STD_LOGIC;                    -- branch equal (BEQ)
+        memToReg     : out STD_LOGIC;                    -- select memory data for writeback
+        ALUSrc       : out STD_LOGIC;                    -- select immediate for ALU
         ALUCont      : out STD_LOGIC_VECTOR(2 downto 0); -- ALU operation
-        jmp          : out STD_LOGIC                -- jump signal 
+        jmp          : out STD_LOGIC;                    -- jump signal 
+        print        : out STD_LOGIC                     -- print signal
     );
 end control_unit;
 
@@ -29,6 +30,7 @@ architecture Behavioral of control_unit is
     constant OP_BRANCH : STD_LOGIC_VECTOR(6 downto 0) := "1100011"; -- branch
     constant OP_JAL    : STD_LOGIC_VECTOR(6 downto 0) := "1101111"; -- JAL
     constant OP_JALR   : STD_LOGIC_VECTOR(6 downto 0) := "1100111"; -- JALR
+    constant OP_PRINT  : STD_LOGIC_VECTOR(6 downto 0) := "1111111"; -- custom print instruction
     
     constant F3_ADD_SUB: STD_LOGIC_VECTOR(2 downto 0) := "000";
     constant F3_AND    : STD_LOGIC_VECTOR(2 downto 0) := "111";
@@ -111,7 +113,9 @@ begin
                 RegWrite <= '1'; 
                 jmp <= '1';   
                 ALUSrc <= '1';
-                
+
+            when OP_PRINT =>
+                print <= '1';
             when others =>
                 null;
         end case;
