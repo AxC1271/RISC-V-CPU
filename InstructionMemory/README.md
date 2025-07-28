@@ -162,9 +162,8 @@ Let's quickly figure out our immediate values for the branch instructions on lin
 On memory 4, we need to branch to memory 7 if the beq is satisfied. That means our immediate value is 3, or 000000000011 in binary. The way our immediate generator derives the immediate value from a branch type instruction is as follows:
 
 ```VHDL
-    when "1100011" => -- B-type
-        imm_b := resize(signed(instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & '0'), 32);
-        immediate <= std_logic_vector(imm_b);
+     when "1100011" => -- B-type
+        immediate <= std_logic_vector(signed(instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) & "0"));
 ```
 
 This gives the instruction `0000000_00101_00100_000_00110_1100011`.
