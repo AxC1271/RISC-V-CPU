@@ -6,6 +6,7 @@ entity seven_seg_mux is
   port (
     clk : in STD_LOGIC;
     rst : in STD_LOGIC;
+    print : in STD_LOGIC;
     val : in STD_LOGIC_VECTOR(15 downto 0);
     seg : out STD_LOGIC_VECTOR(6 downto 0);
     ade : out STD_LOGIC_VECTOR(3 downto 0)
@@ -47,8 +48,8 @@ begin
 
   seg_display: process(seg_clk, rst) is
   begin
-    if rst = '1' then
-      
+    if rst = '1' or print = '0' then
+      seg_i <= "1111110"; -- just shows -
     elsif rising_edge(clk) then
       
     end if;
