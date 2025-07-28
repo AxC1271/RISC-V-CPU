@@ -6,8 +6,8 @@ entity seven_seg_mux is
   port (
     clk : in STD_LOGIC;
     rst : in STD_LOGIC;
-    print : in STD_LOGIC;
-    val : in STD_LOGIC_VECTOR(15 downto 0);
+    print : in STD_LOGIC; -- control unit will send the appropriate flag
+    val : in STD_LOGIC_VECTOR(31 downto 0); -- passed directly from alu result
     seg : out STD_LOGIC_VECTOR(6 downto 0);
     ade : out STD_LOGIC_VECTOR(3 downto 0)
   );
