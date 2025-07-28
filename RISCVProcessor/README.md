@@ -102,7 +102,7 @@ architecture Behavioral of riscv_processor is
     component immediate_generator is
         port (
             instruction : in STD_LOGIC_VECTOR(31 downto 0);
-            immediate : out STD_LOGIC_VECTOR(11 downto 0)
+            immediate : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
     
@@ -118,7 +118,8 @@ architecture Behavioral of riscv_processor is
             memToReg : out STD_LOGIC;
             AluSrc : out STD_LOGIC;
             ALUCont : out STD_LOGIC_VECTOR(2 downto 0);
-            jmp : out STD_LOGIC
+            jmp : out STD_LOGIC;
+            print : out STD_LOGIC
         );
     end component;
     
@@ -162,10 +163,10 @@ architecture Behavioral of riscv_processor is
     signal branch_target : STD_LOGIC_VECTOR(11 downto 0);
     
     signal curr_inst : STD_LOGIC_VECTOR(31 downto 0);
-    signal immediate_i : STD_LOGIC_VECTOR(11 downto 0);
+    signal immediate_i : STD_LOGIC_VECTOR(31 downto 0);
     signal write_data_i, read_data1_i, read_data2_i : STD_LOGIC_VECTOR(31 downto 0);
     
-    signal cu_regwrite, memread_i, memwrite_i, brancheq_i, memtoreg_i, alusrc_i, jmp_i : STD_LOGIC;
+    signal cu_regwrite, memread_i, memwrite_i, brancheq_i, memtoreg_i, alusrc_i, jmp_i, print_i : STD_LOGIC;
     signal alucont_i : STD_LOGIC_VECTOR(2 downto 0);
     signal alu_op2 : STD_LOGIC_VECTOR(31 downto 0);
     signal res_i : STD_LOGIC_VECTOR(31 downto 0);
@@ -204,14 +205,14 @@ begin
     BRANCH_ADDER : adder
         port map (
             op1 => (others => '0') & pc_i,
-            op2 => (others => '0') & immediate_i,
+            op2 => immediate_i,
             sum => branch_target
         );
     
     PC_MUX : mux
         port map (
             input1 => (others => '0') & pc_next,
-            input2 => (others => '0') & branch_target,
+            input2 => branch_target,
             sel => branch_taken,
             mux_output => pc_src_i
         );
@@ -220,7 +221,7 @@ begin
         port map (
             clk => pc_clk,
             rst => rst,
-            pc_src => pc_src_i,
+            pc_src => pc_src_i(11 downto 0),
             pc => pc_i
         );
         
@@ -261,13 +262,14 @@ begin
             memToReg => memtoreg_i,
             ALUSrc => alusrc_i,
             ALUCont => alucont_i,
-            jmp => jmp_i
+            jmp => jmp_i,
+            print => print_i
         );
     
     ALU_MUX : mux
         port map (
             input1 => read_data2_i,
-            input2 => (others => '0') & immediate_i,
+            input2 => immediate_i,
             sel => alusrc_i,
             mux_output => alu_op2
         );
@@ -304,6 +306,7 @@ begin
         port map (
             clk => clk,
             rst => rst,
+            print => print_i,
             val => read_data1_i,
             seg => seg,
             ade => ade
@@ -318,7 +321,7 @@ begin
 end Behavioral;
 ```
 
-### Memory-Mapped I/O and Assembly
+### Script for the CPU
 Writing to the address 0xFFFF0000 triggers a display update on the 7-segment, which will then mimic a simplified printf() behavior. Here's the C code for our Fibonacci sequence.
 
 ```C
