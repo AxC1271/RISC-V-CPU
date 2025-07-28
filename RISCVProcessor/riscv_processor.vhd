@@ -8,7 +8,7 @@ entity riscv_processor is
         rst : in STD_LOGIC;
         seg : out STD_LOGIC_VECTOR (6 downto 0);
         ade : out STD_LOGIC_VECTOR (3 downto 0);
-        led : out STD_LOGIC_VECTOR (15 downto 0)
+        led : out STD_LOGIC_VECTOR (11 downto 0)
     );
 end riscv_processor;
 
@@ -36,14 +36,14 @@ architecture Behavioral of riscv_processor is
         port (
             clk : in STD_LOGIC;
             rst : in STD_LOGIC;
-            pc_src : in STD_LOGIC_VECTOR(31 downto 0);
-            pc : out STD_LOGIC_VECTOR(31 downto 0)
+            pc_src : in STD_LOGIC_VECTOR(11 downto 0);
+            pc : out STD_LOGIC_VECTOR(11 downto 0)
         );
     end component;
     
     component instruction_memory is
         port (
-            pc : in STD_LOGIC_VECTOR(31 downto 0);
+            pc : in STD_LOGIC_VECTOR(11 downto 0);
             instruction : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
@@ -65,7 +65,7 @@ architecture Behavioral of riscv_processor is
     component immediate_generator is
         port (
             instruction : in STD_LOGIC_VECTOR(31 downto 0);
-            immediate : out STD_LOGIC_VECTOR(31 downto 0)
+            immediate : out STD_LOGIC_VECTOR(11 downto 0)
         );
     end component;
     
@@ -81,8 +81,7 @@ architecture Behavioral of riscv_processor is
             memToReg : out STD_LOGIC;
             AluSrc : out STD_LOGIC;
             ALUCont : out STD_LOGIC_VECTOR(2 downto 0);
-            jmp : out STD_LOGIC;
-            print : out STD_LOGIC
+            jmp : out STD_LOGIC
         );
     end component;
     
@@ -112,7 +111,6 @@ architecture Behavioral of riscv_processor is
         port (
             clk : in STD_LOGIC;
             rst : in STD_LOGIC;
-            print : in STD_LOGIC;
             val : in STD_LOGIC_VECTOR(31 downto 0);  
             seg : out STD_LOGIC_VECTOR(6 downto 0);  
             ade : out STD_LOGIC_VECTOR(3 downto 0)   
@@ -121,21 +119,22 @@ architecture Behavioral of riscv_processor is
     
     -- internal signals
     signal pc_clk : STD_LOGIC := '0';
-    signal pc_src_i : STD_LOGIC_VECTOR(31 downto 0);
-    signal pc_i : STD_LOGIC_VECTOR(31 downto 0);
-    signal pc_next : STD_LOGIC_VECTOR(31 downto 0);
-    signal branch_target : STD_LOGIC_VECTOR(31 downto 0);
+    signal pc_src_i : STD_LOGIC_VECTOR(11 downto 0);
+    signal pc_i : STD_LOGIC_VECTOR(11 downto 0);
+    signal pc_next : STD_LOGIC_VECTOR(11 downto 0);
+    signal branch_target : STD_LOGIC_VECTOR(11 downto 0);
     
     signal curr_inst : STD_LOGIC_VECTOR(31 downto 0);
-    signal immediate_i : STD_LOGIC_VECTOR(31 downto 0);
+    signal immediate_i : STD_LOGIC_VECTOR(11 downto 0);
     signal write_data_i, read_data1_i, read_data2_i : STD_LOGIC_VECTOR(31 downto 0);
     
-    signal cu_regwrite, memread_i, memwrite_i, brancheq_i, memtoreg_i, alusrc_i, jmp_i, print_i : STD_LOGIC;
+    signal cu_regwrite, memread_i, memwrite_i, brancheq_i, memtoreg_i, alusrc_i, jmp_i : STD_LOGIC;
     signal alucont_i : STD_LOGIC_VECTOR(2 downto 0);
     signal alu_op2 : STD_LOGIC_VECTOR(31 downto 0);
     signal res_i : STD_LOGIC_VECTOR(31 downto 0);
     signal zero_flag_i : STD_LOGIC;  
     signal branch_taken : STD_LOGIC;
+    
     signal dm_read_data : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
@@ -156,36 +155,26 @@ begin
         end if;
     end process clk_divider;
     
-    -- instruction counter for LED display
-    process(pc_clk, rst)
-    begin
-        if rst = '1' then
-            pc_i <= (others => '0');
-        elsif rising_edge(pc_clk) then
-            pc_i <= pc_next;
-        end if;
-    end process;
-    
     -- component instantiations
     
     PC_ADDER : adder
         port map (
-            op1 => pc_i,
+            op1 => (others => '0') & pc_i,
             op2 => X"00000001",  
-            sum => pc_next
+            sum => (others => '0') & pc_next
         );
     
     BRANCH_ADDER : adder
         port map (
-            op1 => pc_i,
-            op2 => immediate_i,
+            op1 => (others => '0') & pc_i,
+            op2 => (others => '0') & immediate_i,
             sum => branch_target
         );
     
     PC_MUX : mux
         port map (
-            input1 => pc_next,
-            input2 => branch_target,
+            input1 => (others => '0') & pc_next,
+            input2 => (others => '0') & branch_target,
             sel => branch_taken,
             mux_output => pc_src_i
         );
@@ -235,14 +224,13 @@ begin
             memToReg => memtoreg_i,
             ALUSrc => alusrc_i,
             ALUCont => alucont_i,
-            jmp => jmp_i,
-            print => print_i
+            jmp => jmp_i
         );
     
     ALU_MUX : mux
         port map (
             input1 => read_data2_i,
-            input2 => immediate_i,
+            input2 => (others => '0') & immediate_i,
             sel => alusrc_i,
             mux_output => alu_op2
         );
@@ -279,7 +267,6 @@ begin
         port map (
             clk => clk,
             rst => rst,
-            print => print_i,
             val => read_data1_i,
             seg => seg,
             ade => ade
@@ -289,6 +276,6 @@ begin
     branch_taken <= brancheq_i and zero_flag_i;
     
     -- LED output shows instruction counter
-    led <= pc_i(15 downto 0);
+    led <= pc_i;
 
 end Behavioral;
