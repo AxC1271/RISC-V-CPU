@@ -376,7 +376,9 @@ This top-level module:
 
 - Instruction binary for loading into memory
 
-## Video Demo
+## 💻 Simulation
+
+## ▶️ Video Demo
 
 Here, I've provided a working demo of the RISC-V processor handling the following assembly file. I want the FPGA board to "print" the first ten Fibonacci numbers.
 
