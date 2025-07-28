@@ -23,7 +23,7 @@ Simulation and hardware debugging strategies:
 - Monitor:
   - PC and instruction progression.
   - LED display for instruction counter.
-  - 7-segment output for printf values (`0xFFFF0000` address).
+  - 7-segment output for printf values.
 
 When deployed on hardware, the 1 Hz slow clock allows visual step-by-step execution of instructions using visible LEDs and 7-segment display output.
 
