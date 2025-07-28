@@ -45,7 +45,7 @@ entity riscv_processor is
         rst : in STD_LOGIC;
         seg : out STD_LOGIC_VECTOR (6 downto 0);
         ade : out STD_LOGIC_VECTOR (3 downto 0);
-        led : out STD_LOGIC_VECTOR (15 downto 0)
+        led : out STD_LOGIC_VECTOR (11 downto 0)
     );
 end riscv_processor;
 
@@ -73,14 +73,14 @@ architecture Behavioral of riscv_processor is
         port (
             clk : in STD_LOGIC;
             rst : in STD_LOGIC;
-            pc_src : in STD_LOGIC_VECTOR(31 downto 0);
-            pc : out STD_LOGIC_VECTOR(31 downto 0)
+            pc_src : in STD_LOGIC_VECTOR(11 downto 0);
+            pc : out STD_LOGIC_VECTOR(11 downto 0)
         );
     end component;
     
     component instruction_memory is
         port (
-            pc : in STD_LOGIC_VECTOR(31 downto 0);
+            pc : in STD_LOGIC_VECTOR(11 downto 0);
             instruction : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
@@ -102,7 +102,7 @@ architecture Behavioral of riscv_processor is
     component immediate_generator is
         port (
             instruction : in STD_LOGIC_VECTOR(31 downto 0);
-            immediate : out STD_LOGIC_VECTOR(31 downto 0)
+            immediate : out STD_LOGIC_VECTOR(11 downto 0)
         );
     end component;
     
@@ -148,7 +148,7 @@ architecture Behavioral of riscv_processor is
         port (
             clk : in STD_LOGIC;
             rst : in STD_LOGIC;
-            val : in STD_LOGIC_VECTOR(15 downto 0);  
+            val : in STD_LOGIC_VECTOR(31 downto 0);  
             seg : out STD_LOGIC_VECTOR(6 downto 0);  
             ade : out STD_LOGIC_VECTOR(3 downto 0)   
         );
@@ -156,13 +156,13 @@ architecture Behavioral of riscv_processor is
     
     -- internal signals
     signal pc_clk : STD_LOGIC := '0';
-    signal pc_src_i : STD_LOGIC_VECTOR(31 downto 0);
-    signal pc_i : STD_LOGIC_VECTOR(31 downto 0);
-    signal pc_next : STD_LOGIC_VECTOR(31 downto 0);
-    signal branch_target : STD_LOGIC_VECTOR(31 downto 0);
+    signal pc_src_i : STD_LOGIC_VECTOR(11 downto 0);
+    signal pc_i : STD_LOGIC_VECTOR(11 downto 0);
+    signal pc_next : STD_LOGIC_VECTOR(11 downto 0);
+    signal branch_target : STD_LOGIC_VECTOR(11 downto 0);
     
     signal curr_inst : STD_LOGIC_VECTOR(31 downto 0);
-    signal immediate_i : STD_LOGIC_VECTOR(31 downto 0);
+    signal immediate_i : STD_LOGIC_VECTOR(11 downto 0);
     signal write_data_i, read_data1_i, read_data2_i : STD_LOGIC_VECTOR(31 downto 0);
     
     signal cu_regwrite, memread_i, memwrite_i, brancheq_i, memtoreg_i, alusrc_i, jmp_i : STD_LOGIC;
@@ -173,25 +173,17 @@ architecture Behavioral of riscv_processor is
     signal branch_taken : STD_LOGIC;
     
     signal dm_read_data : STD_LOGIC_VECTOR(31 downto 0);
-    
-    -- printf detection signals
-    signal printf_detected : STD_LOGIC;
-    signal printf_value : STD_LOGIC_VECTOR(15 downto 0);
-    signal instruction_counter : STD_LOGIC_VECTOR(15 downto 0) := (others => '0');
-    
-    -- memory-mapped I/O address for printf
-    constant PRINTF_ADDR : STD_LOGIC_VECTOR(31 downto 0) := X"FFFF0000";
 
 begin
-    -- clock divider for slower PC operation (1 Hz for debugging)
+    -- clock divider for slower PC operation (2 Hz for debugging)
     clk_divider : process(clk, rst) 
-        variable clk_cnt : integer range 0 to 50_000_000 := 0;
+        variable clk_cnt : integer range 0 to 25_000_000 := 0;
     begin
         if rst = '1' then
             clk_cnt := 0;
             pc_clk <= '0';
         elsif rising_edge(clk) then
-            if clk_cnt = 50_000_000 then  
+            if clk_cnt = 25_000_000 then  
                 clk_cnt := 0;
                 pc_clk <= not pc_clk;
             else
@@ -200,52 +192,26 @@ begin
         end if;
     end process clk_divider;
     
-    -- instruction counter for LED display
-    process(pc_clk, rst)
-    begin
-        if rst = '1' then
-            instruction_counter <= (others => '0');
-        elsif rising_edge(pc_clk) then
-            instruction_counter <= std_logic_vector(unsigned(instruction_counter) + 1);
-        end if;
-    end process;
-    
-    -- printf detection logic
-    process(clk, rst)
-    begin
-        if rst = '1' then
-            printf_detected <= '0';
-            printf_value <= (others => '0');
-        elsif rising_edge(clk) then
-            if memwrite_i = '1' and res_i = PRINTF_ADDR then
-                printf_detected <= '1';
-                printf_value <= read_data2_i(15 downto 0);
-            else
-                printf_detected <= '0';
-            end if;
-        end if;
-    end process;
-    
     -- component instantiations
     
     PC_ADDER : adder
         port map (
-            op1 => pc_i,
+            op1 => (others => '0') & pc_i,
             op2 => X"00000001",  
-            sum => pc_next
+            sum => (others => '0') & pc_next
         );
     
     BRANCH_ADDER : adder
         port map (
-            op1 => pc_i,
-            op2 => immediate_i,
+            op1 => (others => '0') & pc_i,
+            op2 => (others => '0') & immediate_i,
             sum => branch_target
         );
     
     PC_MUX : mux
         port map (
-            input1 => pc_next,
-            input2 => branch_target,
+            input1 => (others => '0') & pc_next,
+            input2 => (others => '0') & branch_target,
             sel => branch_taken,
             mux_output => pc_src_i
         );
@@ -301,7 +267,7 @@ begin
     ALU_MUX : mux
         port map (
             input1 => read_data2_i,
-            input2 => immediate_i,
+            input2 => (others => '0') & immediate_i,
             sel => alusrc_i,
             mux_output => alu_op2
         );
@@ -338,7 +304,7 @@ begin
         port map (
             clk => clk,
             rst => rst,
-            val => printf_value,
+            val => read_data1_i,
             seg => seg,
             ade => ade
         );
@@ -347,7 +313,7 @@ begin
     branch_taken <= brancheq_i and zero_flag_i;
     
     -- LED output shows instruction counter
-    led <= instruction_counter;
+    led <= pc_i;
 
 end Behavioral;
 ```
