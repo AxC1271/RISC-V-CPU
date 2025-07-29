@@ -133,7 +133,7 @@ Referring to my custom made ISA for this CPU implementation, I have the followin
 1.  addi x2, x0, 1   ; b = 1  
 2.  addi x4, x0, 0   ; i = 0
 3.  addi x5, x0, 11  ; loop limit = 11
-4.  beq x4, x5, 10   ; if i == 11, goto infinite loop
+4.  beq x4, x5, 11   ; if i == 11, goto infinite loop
 5.  add x3, x1, x2   ; fib = a + b
 6.  addi x1, x2, 0   ; a = b
 7.  addi x2, x3, 0   ; b = fib  
@@ -155,7 +155,7 @@ Now, if we convert them to the 32-bit binary instructions referring to the instr
 
 3.  000000001011_00000_000_00101_0010011  -- addi x5, x0, 11
 
-4.  XXXXXXX_00101_00100_000_XXXXX_1100011 -- beq x4, x5, 11
+4.  0000001_00101_00100_000_01100_1100011 -- beq x4, x5, 11
 
 5.  0000000_00010_00001_000_00011_0110011 -- add x3, x1, x2
 
@@ -165,51 +165,14 @@ Now, if we convert them to the 32-bit binary instructions referring to the instr
 
 8.  000000000000_00011_000_00000_1111111  -- prnt x3
 
-9.  000000000001_00100_000_00100_0010011  -- addi x4, x4, 0
+9.  000000000001_00100_000_00100_0010011  -- addi x4, x4, 1
 
-10. XXXXXXX_00000_00000_000_XXXXX_1100011 -- beq x0, x0, 4
+10. 1111111_00000_00000_000_11010_1100011 -- beq x0, x0, 4
 
-11. 0000000_00000_00000_000_00000_1100011 -- beq x0, x0, 0
+11. 000000000000_00011_000_00000_1111111  -- prnt x3
 
-```
+12. 1111111_00000_00000_000_11111_1100011 -- beq x0, x0, 11  
 
-Let's quickly figure out our immediate values for the branch instructions on lines 4 and 10.
-
-On memory 4, we need to branch to memory 7 if the `BEQ` is satisfied. That means our immediate value is 3, or `x00000003` in binary. The way our immediate generator derives the immediate value from a branch type instruction is as follows:
-
-```VHDL
-     when "1100011" => -- B-type: imm[12|10:5|4:1|11] = [31|30:25|11:8|7]
-                imm_temp := resize(
-                    signed(
-                        instruction(31) & 
-                        instruction(7) & 
-                        instruction(30 downto 25) & 
-                        instruction(11 downto 8)  
-                    ),
-                    32
-                );
-```
-
-This gives the instruction `0000000_00101_00100_000_00110_1100011`.
-
-For memory 10, we need to branch to memory 4, giving us -6. We will get the two's complement of 6 in binary then add it to the current program counter to get back to 6. 
-
-We can use the two's complement of 6 to go back to a previous address, which is just `111111111010`. We can add this back on memory 10 for it overflow back to memory 4, so our final instruction is `1111111_00000_00000_000_11010_1100011`. For those who remember our program counter only taking 32-bit instructions, we will only look at the 12 least significant bits so that the program counter truly wraps around.
-
-Finalized Instructions for Our Fibonacci Sequence:
-```
-0.  000000000000_00000_000_00001_0010011   -- addi x1, x0, 0
-1.  000000000001_00000_000_00010_0010011   -- addi x2, x0, 1
-2.  000000000000_00000_000_00100_0010011   -- addi x4, x0, 0
-3.  000000001011_00000_000_00101_0010011   -- addi x5, x0, 11
-4.  0000000_00101_00100_000_00110_1100011 -- beq x4, x5, 11
-5.  0000000_00010_00001_000_00011_0110011  -- add x3, x1, x2
-6.  000000000000_00010_000_00001_0010011   -- addi x1, x2, 0
-7.  000000000000_00011_000_00010_0010011   -- addi x2, x3, 0
-8.  000000000000_00011_000_00000_1111111   -- prnt x3
-9.  000000000001_00100_000_00100_0010011   -- addi x4, x4, 0
-10. 1111111_00000_00000_000_10101_1100011 -- beq x0, x0, 4
-11. 0000000_00000_00000_000_00000_1100011  -- beq x0, x0, 0
 ```
 
 Finalized Hexadecimal Instructions for Compactness:
@@ -218,14 +181,15 @@ Finalized Hexadecimal Instructions for Compactness:
 1.  x0000_0000_0001_0000_0000_0001_0001_0011 = x00100113
 2.  x0000_0000_0000_0000_0000_0010_0001_0011 = x00000213
 3.  x0000_0000_1011_0000_0000_0010_1001_0011 = x00B00293
-4.  x0000_0000_0101_0010_0000_0011_0110_0011 = x00520363
+4.  x0000_0010_0101_0010_0000_0110_0110_0011 = x02520663
 5.  x0000_0000_0010_0000_1000_0001_1011_0011 = x002081B3
 6.  x0000_0000_0000_0001_0000_0000_1001_0011 = x00010093
 7.  x0000_0000_0000_0001_1000_0001_0001_0011 = x00018113
 8.  x0000_0000_0000_0001_1000_0000_0111_1111 = x0001807F
 9.  x0000_0000_0001_0010_0000_0010_0001_0011 = x00120213
-10. x1111_1110_0000_0000_0000_1010_1110_0011 = xFE000AE3
-11. x0000_0000_0000_0000_0000_0000_0110_0011 = x00000063
+10. x1111_1110_0000_0000_0000_1101_0110_0011 = xFE000B63
+11. x0000_0000_0000_0001_1000_0000_0111_1111 = x0001807F
+12. x1111_1110_0000_0000_0000_1111_1110_0011 = xFE000FE3
 ```
 
 ## Theoretical Background
