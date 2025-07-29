@@ -14,6 +14,8 @@ The data memory is a crucial element in the CPU architecture, providing a space 
 
 ## Development Process
 
+### Block Diagram
+
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
@@ -66,6 +68,8 @@ end Behavioral;
 ### Testing
 
 Here's the test bench file for the data memory module.
+
+Here's the waveform to ensure proper behavior for the data memory module.
 
 ## Theoretical Background
 
