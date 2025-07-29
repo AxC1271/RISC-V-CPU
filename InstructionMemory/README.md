@@ -32,10 +32,7 @@ end instruction_memory;
 architecture Behavioral of instruction_memory is
     type memory_array is array (0 to 4095) of STD_LOGIC_VECTOR(31 downto 0);
     constant instruction_memory : memory_array := (
-        0 => x"00400093",  -- example instructions
-        1 => x"00800113",
-        2 => x"00A00193",
-        others => (others => '0')
+        -- put your instructions here
     );
 
 begin
@@ -132,16 +129,16 @@ Referring to my custom made ISA for this CPU implementation, I have the followin
 0.  addi x1, x0, 0   ; a = 0
 1.  addi x2, x0, 1   ; b = 1  
 2.  addi x4, x0, 0   ; i = 0
-3.  addi x5, x0, 11  ; loop limit = 11
-4.  beq x4, x5, 11   ; if i == 11, goto infinite loop
+3.  addi x5, x0, 10  ; loop limit = 10
+4.  beq x4, x5, 7    ; if i == 11, goto infinite loop
 5.  add x3, x1, x2   ; fib = a + b
 6.  addi x1, x2, 0   ; a = b
 7.  addi x2, x3, 0   ; b = fib  
 8.  prnt x3          ; print fib
 9.  addi x4, x4, 1   ; i++
-10. beq x0, x0, 4    ; goto loop condition check
+10. beq x0, x0, -6   ; goto loop condition check
 11. prnt x3          ; print last Fibonacci number
-12. beq x0, x0, 11   ; infinite loop printing last value
+12. beq x0, x0, -1   ; infinite loop printing last value
 ```
 
 Now, if we convert them to the 32-bit binary instructions referring to the instruction format of RISC-V (and nmy custom print function), we'll get:
@@ -155,7 +152,7 @@ Now, if we convert them to the 32-bit binary instructions referring to the instr
 
 3.  000000001011_00000_000_00101_0010011  -- addi x5, x0, 11
 
-4.  0000001_00101_00100_000_01100_1100011 -- beq x4, x5, 11
+4.  0000000_00101_00100_000_01110_1100011 -- beq x4, x5, 7
 
 5.  0000000_00010_00001_000_00011_0110011 -- add x3, x1, x2
 
@@ -167,29 +164,29 @@ Now, if we convert them to the 32-bit binary instructions referring to the instr
 
 9.  000000000001_00100_000_00100_0010011  -- addi x4, x4, 1
 
-10. 1111111_00000_00000_000_11010_1100011 -- beq x0, x0, 4
+10. 1111111_00000_00000_000_11010_1100011 -- beq x0, x0, -6
 
 11. 000000000000_00011_000_00000_1111111  -- prnt x3
 
-12. 1111111_00000_00000_000_11111_1100011 -- beq x0, x0, 11  
+12. 1111111_00000_00000_000_11111_1100011 -- beq x0, x0, -1  
 
 ```
 
 Finalized Hexadecimal Instructions for Compactness:
 ```
-0.  x0000_0000_0000_0000_0000_0000_1001_0011 = x00000093
-1.  x0000_0000_0001_0000_0000_0001_0001_0011 = x00100113
-2.  x0000_0000_0000_0000_0000_0010_0001_0011 = x00000213
-3.  x0000_0000_1011_0000_0000_0010_1001_0011 = x00B00293
-4.  x0000_0010_0101_0010_0000_0110_0110_0011 = x02520663
-5.  x0000_0000_0010_0000_1000_0001_1011_0011 = x002081B3
-6.  x0000_0000_0000_0001_0000_0000_1001_0011 = x00010093
-7.  x0000_0000_0000_0001_1000_0001_0001_0011 = x00018113
-8.  x0000_0000_0000_0001_1000_0000_0111_1111 = x0001807F
-9.  x0000_0000_0001_0010_0000_0010_0001_0011 = x00120213
-10. x1111_1110_0000_0000_0000_1101_0110_0011 = xFE000D63
-11. x0000_0000_0000_0001_1000_0000_0111_1111 = x0001807F
-12. x1111_1110_0000_0000_0000_1111_1110_0011 = xFE000FE3
+0      => x"00000093", -- addi x1, x0, 0
+1      => x"00100113", -- addi x2, x0, 1
+2      => x"00000213", -- addi x4, x0, 0
+3      => x"00B00293", -- addi x5, x0, 11
+4      => x"00520763", -- beq x4, x5, 7
+5      => x"002081B3", -- add x3, x1, x2
+6      => x"00010093", -- addi x1, x2, 0
+7      => x"00018113", -- addi x2, x3, 0
+8      => x"0001807F", -- prnt x3
+9      => x"00120213", -- addi x4, x4, 1
+10     => x"FE000AE3", -- beq x0, x0, -6, wrap around
+11     => x"0001807F", -- prnt x3
+12     => x"FE000FE3", -- beq x0, x0, -1
 ```
 
 ## Theoretical Background
