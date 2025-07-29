@@ -198,4 +198,4 @@ The instruction memory is essential for storing the program's instructions and s
 - Reset: Ensures a known state by resetting the output instruction.
 
 ## Importance
-An efficient instruction memory design is crucial for optimizing CPU performance, as it directly impacts the speed and accuracy of instruction execution. This README provides a structured overview of the instruction memory component, highlighting its role and functionality within the CPU architecture
+An efficient instruction memory design is crucial for optimizing CPU performance, as it directly impacts the speed and accuracy of instruction execution. This README provides a structured overview of the instruction memory component, highlighting its role and functionality within the CPU architecture.
