@@ -138,8 +138,6 @@ architecture Behavioral of riscv_processor is
     signal dm_read_data : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
-
-    -- Clock divider for slower PC operation (2 Hz for debugging)
     clk_enable_gen : process(clk, rst) 
         variable clk_cnt : integer range 0 to 25_000_000 := 0;
     begin
@@ -184,7 +182,7 @@ begin
     PC_ADDER : adder
         port map (
             op1 => pc_i,
-            op2 => X"00000001",  -- Increment by 1 (word addressing)
+            op2 => X"00000001",  -- increment by 1 (word addressing)
             sum => pc_next
         );
     
