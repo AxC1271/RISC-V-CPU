@@ -38,11 +38,13 @@ begin
     end if;
   end process clk_div;
 
+  -- FIXED: Use clocked process instead of combinational
+  -- Remove ade_i from sensitivity list to break the loop
   anode_mux: process(seg_clk, rst) is
   begin
     if rst = '1' then
-      ade_i <= "1110";  -- Reset to initial state
-    elsif rising_edge(seg_clk) then  -- Only update on clock edge
+      ade_i <= "1110"; 
+    elsif rising_edge(seg_clk) then  
       case ade_i is
         when "1110" =>
           ade_i <= "1101";
@@ -63,13 +65,13 @@ begin
       seg_i <= "1111110";
     elsif rising_edge(seg_clk) then
       case ade_i is
-        when "1110" => -- LSB
+        when "1110" => 
           val_int := to_integer(unsigned(val)) mod 10;
-        when "1101" => -- tens digit
+        when "1101" => 
           val_int := (to_integer(unsigned(val)) / 10) mod 10;
-        when "1011" => -- hundreds digit
+        when "1011" => 
           val_int := (to_integer(unsigned(val)) / 100) mod 10;
-        when others => -- MSB (Thousands digit)
+        when others => 
           val_int := (to_integer(unsigned(val)) / 1000) mod 10;
       end case;
       
@@ -88,7 +90,6 @@ begin
     end if;
   end process seg_display;
 
-  -- Final assignments
   ade <= ade_i;
   seg <= seg_i;
 end Behavioral;
