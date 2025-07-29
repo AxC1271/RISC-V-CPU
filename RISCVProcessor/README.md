@@ -347,19 +347,20 @@ int main() {
 
 ```
 // Converted Binary Instructions
-0.  x0000_0000_0000_0000_0000_0000_1001_0011 = x00000093
-1.  x0000_0000_0001_0000_0000_0001_0001_0011 = x00100113
-2.  x0000_0000_0000_0000_0000_0010_0001_0011 = x00000213
-3.  x0000_0000_1011_0000_0000_0010_1001_0011 = x00B00293
-4.  x0000_0010_0101_0010_0000_0110_0110_0011 = x02520663
-5.  x0000_0000_0010_0000_1000_0001_1011_0011 = x002081B3
-6.  x0000_0000_0000_0001_0000_0000_1001_0011 = x00010093
-7.  x0000_0000_0000_0001_1000_0001_0001_0011 = x00018113
-8.  x0000_0000_0000_0001_1000_0000_0111_1111 = x0001807F
-9.  x0000_0000_0001_0010_0000_0010_0001_0011 = x00120213
-10. x1111_1110_0000_0000_0000_1101_0110_0011 = xFE000D63
-11. x0000_0000_0000_0001_1000_0000_0111_1111 = x0001807F
-12. x1111_1110_0000_0000_0000_1111_1110_0011 = xFE000FE3
+0      => x"00000093", -- addi x1, x0, 0
+1      => x"00100113", -- addi x2, x0, 1
+2      => x"00000213", -- addi x4, x0, 0
+3      => x"00B00293", -- addi x5, x0, 11
+4      => x"00428763", -- beq x4, x5, 7
+5      => x"002081B3", -- add x3, x1, x2
+6      => x"00010093", -- addi x1, x2, 0
+7      => x"00018113", -- addi x2, x3, 0
+8      => x"0001807F", -- prnt x3
+9      => x"00120213", -- addi x4, x4, 1
+10     => x"FE000AE3", -- beq x0, x0, -6, wrap around
+11     => x"0001807F", -- prnt x3
+12     => x"FE000FE3", -- beq x0, x0, -1
+others => x"00000000"
 ```
 
 ## 💡 Importance
@@ -389,7 +390,7 @@ This top-level module:
 Here, I've provided a working demo of the RISC-V processor handling the following assembly file. I want the FPGA board to "print" the first ten Fibonacci numbers.
 
 ## 🎢 Next Steps
-The current implementation of the processor handles instruction fetching, decoding, computation, and writeback all within a single clock cycle. As a result, the clock cycle must be slow enough to ensure that clock slack is negligible. In the critical path alone, the time slack is approximately 60 ns, which is not feasible for clocks operating in the MHz range where the period is smaller than 60 ns.
+The current implementation of the processor handles instruction fetching, decoding, computation, and writeback all within a single clock cycle. As a result, the clock cycle must be slow enough to ensure that clock slack is negligible. For the scope of this project, this wasn't an issue and the CPU worked as expected.
 
 To optimize and accelerate the hardware, several techniques can be employed:
 - Branch Predictors: Improve instruction flow by predicting the outcome of branches, reducing stalls and increasing  throughput.
