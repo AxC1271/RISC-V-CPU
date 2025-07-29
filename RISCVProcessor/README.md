@@ -158,7 +158,6 @@ architecture Behavioral of riscv_processor is
     signal pc_i : STD_LOGIC_VECTOR(31 downto 0);
     signal pc_next : STD_LOGIC_VECTOR(31 downto 0);
     signal branch_target : STD_LOGIC_VECTOR(31 downto 0);
-    signal branch_taken_reg : STD_LOGIC := '0';
     signal pc_src_reg : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
     
     signal curr_inst : STD_LOGIC_VECTOR(31 downto 0);
@@ -194,10 +193,8 @@ begin
     branch_decision : process(clk, rst)
     begin
         if rst = '1' then
-            branch_taken_reg <= '0';
             pc_src_reg <= (others => '0');
         elsif rising_edge(clk) then
-            branch_taken_reg <= brancheq_i and zero_flag_i;
             if (brancheq_i and zero_flag_i) = '1' then
                 pc_src_reg <= branch_target;  
             else
