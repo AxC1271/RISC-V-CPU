@@ -39,7 +39,7 @@ architecture Behavioral of instruction_memory is
     );
 
 begin
-    instruction <= instruction_memory(to_integer(unsigned(pc(31 downto 0))));
+    instruction <= instruction_memory(to_integer(unsigned(pc)));
 end Behavioral;
 ```
 
