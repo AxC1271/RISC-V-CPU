@@ -117,7 +117,6 @@ architecture Behavioral of riscv_processor is
             ade : out STD_LOGIC_VECTOR(3 downto 0)   
         );
     end component;
-    
     signal pc_enable : STD_LOGIC := '0';
     signal pc_i : STD_LOGIC_VECTOR(31 downto 0);
     signal pc_next : STD_LOGIC_VECTOR(31 downto 0);
@@ -139,18 +138,18 @@ architecture Behavioral of riscv_processor is
 
 begin
     clk_enable_gen : process(clk, rst) 
-        variable clk_cnt : integer range 0 to 25_000_000 := 0;
+        variable clk_cnt : integer range 0 to 50_000_000 := 0;
     begin
         if rst = '1' then
             clk_cnt := 0;
             pc_enable <= '0';
         elsif rising_edge(clk) then
-            if clk_cnt = 25_000_000 then  
+            if clk_cnt = 50_000_000 then  
                 clk_cnt := 0;
                 pc_enable <= '1';
             else
-                clk_cnt := clk_cnt + 1;
                 pc_enable <= '0';
+                clk_cnt := clk_cnt + 1;
             end if;
         end if;
     end process clk_enable_gen;
@@ -170,19 +169,19 @@ begin
         end if;
     end process branch_decision;
 
-    PC : program_counter 
-        port map (
-            clk => clk,         
-            rst => rst,
-            enable => pc_enable,
-            pc_src => pc_src_reg,
-            pc => pc_i
-        );
+PC : program_counter 
+    port map (
+        clk => clk,         
+        rst => rst,
+        enable => pc_enable,
+        pc_src => pc_src_reg,
+        pc => pc_i
+    );
     
     PC_ADDER : adder
         port map (
             op1 => pc_i,
-            op2 => X"00000001",  -- increment by 1 (word addressing)
+            op2 => X"00000001",  
             sum => pc_next
         );
     
@@ -198,7 +197,7 @@ begin
             pc => pc_i(11 downto 0),
             instruction => curr_inst
         );
-
+        
     RF : register_file
         port map (
             clk => clk,
@@ -233,7 +232,7 @@ begin
             jmp => jmp_i,
             print => print_i
         );
-    
+
     ALU_MUX : mux
         port map (
             input1 => read_data2_i,
@@ -262,7 +261,6 @@ begin
             read_data => dm_read_data
         );
     
-    -- Write-back multiplexer
     WB_MUX : mux
         port map (
             input1 => res_i,        
