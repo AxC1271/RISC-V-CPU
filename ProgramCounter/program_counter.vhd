@@ -2,35 +2,29 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
--- RISC-V Program Counter
--- Handles sequential instruction fetch and branch/jump operations
--- PC increments by 4 bytes (32-bit instructions) each cycle unless overridden
 entity program_counter is
     port (
-        clk : in STD_LOGIC; -- make sure to make this clock slow
+        clk : in STD_LOGIC;
         rst : in STD_LOGIC;
-        pc_src : in STD_LOGIC_VECTOR(11 downto 0);  -- new PC value from branch/jump
-        pc : out STD_LOGIC_VECTOR(11 downto 0)      -- current PC value
+        enable : in STD_LOGIC;  
+        pc_src : in STD_LOGIC_VECTOR(31 downto 0);
+        pc : out STD_LOGIC_VECTOR(31 downto 0)
     );
 end program_counter;
 
 architecture Behavioral of program_counter is
-    signal curr_pc : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
-    constant RESET_PC : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
-    
+    signal pc_reg : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
 begin
-    -- PC update process
     process(clk, rst)
     begin
         if rst = '1' then
-            curr_pc <= RESET_PC;
+            pc_reg <= (others => '0');
         elsif rising_edge(clk) then
-                curr_pc <= pc_src;
-            -- if pc_write = '0', PC stays the same
+            if enable = '1' then  -- only update when enabled
+                pc_reg <= pc_src;
+            end if;
         end if;
     end process;
     
-    -- output current PC
-    pc <= curr_pc;
-    
+    pc <= pc_reg;
 end Behavioral;
