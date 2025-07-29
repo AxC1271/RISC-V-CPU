@@ -50,7 +50,6 @@ entity riscv_processor is
 end riscv_processor;
 
 architecture Behavioral of riscv_processor is
-    -- Component declarations
     component adder is
         port (
             op1 : in STD_LOGIC_VECTOR(31 downto 0);
@@ -175,8 +174,6 @@ architecture Behavioral of riscv_processor is
     signal dm_read_data : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
-
-    -- Clock divider for slower PC operation (2 Hz for debugging)
     clk_enable_gen : process(clk, rst) 
         variable clk_cnt : integer range 0 to 50_000_000 := 0;
     begin
@@ -218,17 +215,13 @@ PC : program_counter
         pc => pc_i
     );
     
-    -- Component instantiations
-    
-    -- PC incrementer 
     PC_ADDER : adder
         port map (
             op1 => pc_i,
-            op2 => X"00000001",  -- Increment by 1 (word addressing)
+            op2 => X"00000001",  
             sum => pc_next
         );
     
-    -- Branch target calculator
     BRANCH_ADDER : adder
         port map (
             op1 => pc_i,
@@ -236,14 +229,12 @@ PC : program_counter
             sum => branch_target
         );
         
-    -- Instruction memory (uses lower 12 bits of PC)
     IM : instruction_memory
         port map (
             pc => pc_i(11 downto 0),
             instruction => curr_inst
         );
         
-    -- Register file
     RF : register_file
         port map (
             clk => clk,
@@ -257,14 +248,12 @@ PC : program_counter
             read_data2 => read_data2_i
         );
     
-    -- Immediate generator
     IG : immediate_generator 
         port map (
             instruction => curr_inst,
             immediate => immediate_i
         );
         
-    -- Control unit
     CU : control_unit
         port map (
             opcode => curr_inst(6 downto 0),
@@ -280,8 +269,7 @@ PC : program_counter
             jmp => jmp_i,
             print => print_i
         );
-    
-    -- ALU source multiplexer
+
     ALU_MUX : mux
         port map (
             input1 => read_data2_i,
@@ -290,7 +278,6 @@ PC : program_counter
             mux_output => alu_op2
         );
         
-    -- ALU
     ALU_INST : alu 
         port map (
             op1 => read_data1_i,
@@ -300,7 +287,6 @@ PC : program_counter
             zero_flag => zero_flag_i
         );
         
-    -- Data memory
     DM : data_memory 
         port map (
             clk => clk,
@@ -312,7 +298,6 @@ PC : program_counter
             read_data => dm_read_data
         );
     
-    -- Write-back multiplexer
     WB_MUX : mux
         port map (
             input1 => res_i,        
@@ -321,7 +306,6 @@ PC : program_counter
             mux_output => write_data_i
         );
     
-    -- 7-segment display
     DISPLAY : seven_seg_mux
         port map (
             clk => clk,
