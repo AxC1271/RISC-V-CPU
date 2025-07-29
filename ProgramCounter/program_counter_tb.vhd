@@ -11,6 +11,7 @@ architecture Behavioral of program_counter_tb is
         port (
             clk : in STD_LOGIC;
             rst : in STD_LOGIC;
+            enable : in STD_LOGIC;
             pc_src : in STD_LOGIC_VECTOR(31 downto 0);
             pc : out STD_LOGIC_VECTOR(31 downto 0)
         );
