@@ -353,7 +353,7 @@ int main() {
 8      => x"0001807F", -- prnt x3
 9      => x"00120213", -- addi x4, x4, 1
 10     => x"FE000AE3", -- beq x0, x0, -6, wrap around
-11     => x"0001807F", -- prnt x3
+11     => x"0001807F", -- prnt x3 ; this should stop at 144!
 12     => x"FE000FE3", -- beq x0, x0, -1
 others => x"00000000"
 ```
