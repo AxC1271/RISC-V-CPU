@@ -50,6 +50,7 @@ entity riscv_processor is
 end riscv_processor;
 
 architecture Behavioral of riscv_processor is
+    -- Component declarations
     component adder is
         port (
             op1 : in STD_LOGIC_VECTOR(31 downto 0);
@@ -154,7 +155,6 @@ architecture Behavioral of riscv_processor is
             ade : out STD_LOGIC_VECTOR(3 downto 0)   
         );
     end component;
-    
     signal pc_enable : STD_LOGIC := '0';
     signal pc_i : STD_LOGIC_VECTOR(31 downto 0);
     signal pc_next : STD_LOGIC_VECTOR(31 downto 0);
@@ -175,19 +175,21 @@ architecture Behavioral of riscv_processor is
     signal dm_read_data : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
+
+    -- Clock divider for slower PC operation (2 Hz for debugging)
     clk_enable_gen : process(clk, rst) 
-        variable clk_cnt : integer range 0 to 25_000_000 := 0;
+        variable clk_cnt : integer range 0 to 50_000_000 := 0;
     begin
         if rst = '1' then
             clk_cnt := 0;
             pc_enable <= '0';
         elsif rising_edge(clk) then
-            if clk_cnt = 25_000_000 then  
+            if clk_cnt = 50_000_000 then  
                 clk_cnt := 0;
                 pc_enable <= '1';
             else
-                clk_cnt := clk_cnt + 1;
                 pc_enable <= '0';
+                clk_cnt := clk_cnt + 1;
             end if;
         end if;
     end process clk_enable_gen;
@@ -207,22 +209,26 @@ begin
         end if;
     end process branch_decision;
 
-    PC : program_counter 
-        port map (
-            clk => clk,         
-            rst => rst,
-            enable => pc_enable,
-            pc_src => pc_src_reg,
-            pc => pc_i
-        );
+PC : program_counter 
+    port map (
+        clk => clk,         
+        rst => rst,
+        enable => pc_enable,
+        pc_src => pc_src_reg,
+        pc => pc_i
+    );
     
+    -- Component instantiations
+    
+    -- PC incrementer 
     PC_ADDER : adder
         port map (
             op1 => pc_i,
-            op2 => X"00000001",  -- increment by 1 (word addressing)
+            op2 => X"00000001",  -- Increment by 1 (word addressing)
             sum => pc_next
         );
     
+    -- Branch target calculator
     BRANCH_ADDER : adder
         port map (
             op1 => pc_i,
@@ -230,12 +236,14 @@ begin
             sum => branch_target
         );
         
+    -- Instruction memory (uses lower 12 bits of PC)
     IM : instruction_memory
         port map (
             pc => pc_i(11 downto 0),
             instruction => curr_inst
         );
-
+        
+    -- Register file
     RF : register_file
         port map (
             clk => clk,
@@ -249,12 +257,14 @@ begin
             read_data2 => read_data2_i
         );
     
+    -- Immediate generator
     IG : immediate_generator 
         port map (
             instruction => curr_inst,
             immediate => immediate_i
         );
         
+    -- Control unit
     CU : control_unit
         port map (
             opcode => curr_inst(6 downto 0),
@@ -271,6 +281,7 @@ begin
             print => print_i
         );
     
+    -- ALU source multiplexer
     ALU_MUX : mux
         port map (
             input1 => read_data2_i,
@@ -279,6 +290,7 @@ begin
             mux_output => alu_op2
         );
         
+    -- ALU
     ALU_INST : alu 
         port map (
             op1 => read_data1_i,
@@ -288,6 +300,7 @@ begin
             zero_flag => zero_flag_i
         );
         
+    -- Data memory
     DM : data_memory 
         port map (
             clk => clk,
@@ -299,6 +312,7 @@ begin
             read_data => dm_read_data
         );
     
+    -- Write-back multiplexer
     WB_MUX : mux
         port map (
             input1 => res_i,        
@@ -307,6 +321,7 @@ begin
             mux_output => write_data_i
         );
     
+    -- 7-segment display
     DISPLAY : seven_seg_mux
         port map (
             clk => clk,
@@ -397,7 +412,8 @@ To optimize and accelerate the hardware, several techniques can be employed:
 - Vector Processing: Enhance data parallelism by executing vector instructions, which can significantly speed up computations involving large data sets.
 - Multi-Stage Pipelining: Break down instruction processing into multiple stages, allowing for simultaneous execution of different instructions and improving overall throughput.
 - Cache Hierarchy (L1, L2 caching): Implement a cache hierarchy to reduce memory access times, thereby increasing the efficiency of data retrieval and storage.
-- 
+- Compiler Integration: It is a pain to write the assembly code and then convert it into 32-bit instructions by hand. There are open-source toolchains out there but writing a compiler from scratch and customizing it to my ISA would streamline the generation of instructions.
+
 These techniques are commonly used by modern processors to optimize their CPI (cycles per instruction). In a later project, I plan to adapt these techniques to develop a more efficient processor in the future.
 
 ---
