@@ -50,8 +50,6 @@ entity riscv_processor is
 end riscv_processor;
 
 architecture Behavioral of riscv_processor is
-    -- component declarations
-    
     component adder is
         port (
             op1 : in STD_LOGIC_VECTOR(31 downto 0);
@@ -65,7 +63,7 @@ architecture Behavioral of riscv_processor is
             input1 : in STD_LOGIC_VECTOR(31 downto 0);
             input2 : in STD_LOGIC_VECTOR(31 downto 0);
             sel : in STD_LOGIC;
-            mux : out STD_LOGIC_VECTOR(31 downto 0)
+            mux_output : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
     
@@ -73,8 +71,9 @@ architecture Behavioral of riscv_processor is
         port (
             clk : in STD_LOGIC;
             rst : in STD_LOGIC;
-            pc_src : in STD_LOGIC_VECTOR(11 downto 0);
-            pc : out STD_LOGIC_VECTOR(11 downto 0)
+            enable : in STD_LOGIC;
+            pc_src : in STD_LOGIC_VECTOR(31 downto 0);
+            pc : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
     
@@ -149,18 +148,19 @@ architecture Behavioral of riscv_processor is
         port (
             clk : in STD_LOGIC;
             rst : in STD_LOGIC;
+            print : in STD_LOGIC;
             val : in STD_LOGIC_VECTOR(31 downto 0);  
             seg : out STD_LOGIC_VECTOR(6 downto 0);  
             ade : out STD_LOGIC_VECTOR(3 downto 0)   
         );
     end component;
     
-    -- internal signals
-    signal pc_clk : STD_LOGIC := '0';
-    signal pc_src_i : STD_LOGIC_VECTOR(11 downto 0);
-    signal pc_i : STD_LOGIC_VECTOR(11 downto 0);
-    signal pc_next : STD_LOGIC_VECTOR(11 downto 0);
-    signal branch_target : STD_LOGIC_VECTOR(11 downto 0);
+    signal pc_enable : STD_LOGIC := '0';
+    signal pc_i : STD_LOGIC_VECTOR(31 downto 0);
+    signal pc_next : STD_LOGIC_VECTOR(31 downto 0);
+    signal branch_target : STD_LOGIC_VECTOR(31 downto 0);
+    signal branch_taken_reg : STD_LOGIC := '0';
+    signal pc_src_reg : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
     
     signal curr_inst : STD_LOGIC_VECTOR(31 downto 0);
     signal immediate_i : STD_LOGIC_VECTOR(31 downto 0);
@@ -171,73 +171,78 @@ architecture Behavioral of riscv_processor is
     signal alu_op2 : STD_LOGIC_VECTOR(31 downto 0);
     signal res_i : STD_LOGIC_VECTOR(31 downto 0);
     signal zero_flag_i : STD_LOGIC;  
-    signal branch_taken : STD_LOGIC;
     
     signal dm_read_data : STD_LOGIC_VECTOR(31 downto 0);
 
 begin
-    -- clock divider for slower PC operation (2 Hz for debugging)
-    clk_divider : process(clk, rst) 
+    clk_enable_gen : process(clk, rst) 
         variable clk_cnt : integer range 0 to 25_000_000 := 0;
     begin
         if rst = '1' then
             clk_cnt := 0;
-            pc_clk <= '0';
+            pc_enable <= '0';
         elsif rising_edge(clk) then
             if clk_cnt = 25_000_000 then  
                 clk_cnt := 0;
-                pc_clk <= not pc_clk;
+                pc_enable <= '1';
             else
                 clk_cnt := clk_cnt + 1;
+                pc_enable <= '0';
             end if;
         end if;
-    end process clk_divider;
+    end process clk_enable_gen;
     
-    -- component instantiations
+    branch_decision : process(clk, rst)
+    begin
+        if rst = '1' then
+            branch_taken_reg <= '0';
+            pc_src_reg <= (others => '0');
+        elsif rising_edge(clk) then
+            branch_taken_reg <= brancheq_i and zero_flag_i;
+            if (brancheq_i and zero_flag_i) = '1' then
+                pc_src_reg <= branch_target;  
+            else
+                pc_src_reg <= pc_next;        
+            end if;
+        end if;
+    end process branch_decision;
+
+    PC : program_counter 
+        port map (
+            clk => clk,         
+            rst => rst,
+            enable => pc_enable,
+            pc_src => pc_src_reg,
+            pc => pc_i
+        );
     
     PC_ADDER : adder
         port map (
-            op1 => (others => '0') & pc_i,
-            op2 => X"00000001",  
-            sum => (others => '0') & pc_next
+            op1 => pc_i,
+            op2 => X"00000001",  -- increment by 1 (word addressing)
+            sum => pc_next
         );
     
     BRANCH_ADDER : adder
         port map (
-            op1 => (others => '0') & pc_i,
+            op1 => pc_i,
             op2 => immediate_i,
             sum => branch_target
-        );
-    
-    PC_MUX : mux
-        port map (
-            input1 => (others => '0') & pc_next,
-            input2 => branch_target,
-            sel => branch_taken,
-            mux_output => pc_src_i
-        );
-    
-    PC : program_counter 
-        port map (
-            clk => pc_clk,
-            rst => rst,
-            pc_src => pc_src_i(11 downto 0),
-            pc => pc_i
         );
         
     IM : instruction_memory
         port map (
-            pc => pc_i,
+            pc => pc_i(11 downto 0),
             instruction => curr_inst
         );
-        
+
     RF : register_file
         port map (
             clk => clk,
             rst => rst,
-            read_addr1 => curr_inst(19 downto 15),
-            read_addr2 => curr_inst(24 downto 20),
-            write_addr => curr_inst(11 downto 7),
+            read_addr1 => curr_inst(19 downto 15), -- rs1
+            read_addr2 => curr_inst(24 downto 20), -- rs2
+            write_addr => curr_inst(11 downto 7),  -- rd
             write_data => write_data_i,
             reg_write => cu_regwrite,  
             read_data1 => read_data1_i,
@@ -269,7 +274,7 @@ begin
     ALU_MUX : mux
         port map (
             input1 => read_data2_i,
-            input2 => immediate_i,
+            input2 => immediate_i,   
             sel => alusrc_i,
             mux_output => alu_op2
         );
@@ -296,8 +301,8 @@ begin
     
     WB_MUX : mux
         port map (
-            input1 => res_i,
-            input2 => dm_read_data,
+            input1 => res_i,        
+            input2 => dm_read_data, 
             sel => memtoreg_i,
             mux_output => write_data_i
         );
@@ -312,11 +317,8 @@ begin
             ade => ade
         );
     
-    -- combinational logic
-    branch_taken <= brancheq_i and zero_flag_i;
-    
-    -- LED output shows instruction counter
-    led <= pc_i;
+    -- LED output shows lower 12 bits of PC
+    led <= pc_i(11 downto 0);
 
 end Behavioral;
 ```
