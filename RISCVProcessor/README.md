@@ -388,3 +388,17 @@ This top-level module:
 
 Here, I've provided a working demo of the RISC-V processor handling the following assembly file. I want the FPGA board to "print" the first ten Fibonacci numbers.
 
+## 🎢 Next Steps
+The current implementation of the processor handles instruction fetching, decoding, computation, and writeback all within a single clock cycle. As a result, the clock cycle must be slow enough to ensure that clock slack is negligible. In the critical path alone, the time slack is approximately 60 ns, which is not feasible for clocks operating in the MHz range where the period is smaller than 60 ns.
+
+To optimize and accelerate the hardware, several techniques can be employed:
+- Branch Predictors: Improve instruction flow by predicting the outcome of branches, reducing stalls and increasing  throughput.
+- Vector Processing: Enhance data parallelism by executing vector instructions, which can significantly speed up computations involving large data sets.
+- Multi-Stage Pipelining: Break down instruction processing into multiple stages, allowing for simultaneous execution of different instructions and improving overall throughput.
+- Cache Hierarchy (L1, L2 caching): Implement a cache hierarchy to reduce memory access times, thereby increasing the efficiency of data retrieval and storage.
+- 
+These techniques are commonly used by modern processors to optimize their CPI (cycles per instruction). In a later project, I plan to adapt these techniques to develop a more efficient processor in the future.
+
+---
+
+Thanks for stopping by and reading through this project!
