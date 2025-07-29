@@ -32,6 +32,8 @@ To use the seven-segment multiplexer display in your RISC-V CPU project:
 2. Configure Multiplexing: Set up the multiplexing logic to cycle through the desired data outputs.
 3. Monitor Outputs: Use the display to observe and verify CPU operations during development and testing.
 
+
+## VHDL Code
 ```VHDL
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
