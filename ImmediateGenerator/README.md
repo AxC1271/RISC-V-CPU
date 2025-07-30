@@ -7,7 +7,10 @@ The immediate generator is a crucial element in the CPU architecture, enabling t
 
 ## Functionality
 - **Instruction Input:** Accepts a 32-bit instruction from which the immediate value is extracted.
-- **Immediate Output:** Produces a sign-extended immediate value, typically 32 bits wide, for use in ALU operations, address calculations, and control flow changes. This immediate value will be added and selected by the control unit if the opcode of the instruction is an I-type instruction, and this output is then passed into a mux that regulates whether or not the immediate value passes through. For R-type instructions for example where the second operand is the value derived from the address of the second register, this value is ignored as the control unit tells the mux to not propagate this value forward.
+- **Immediate Output:** Produces a sign-extended immediate value, typically 32 bits wide, for use in ALU operations, address calculations, and control flow changes.
+- 
+<br/>
+This immediate value will be added and selected by the control unit if the opcode of the instruction is an I-type instruction, and this output is then passed into a mux that regulates whether or not the immediate value passes through. For R-type instructions for example where the second operand is the value derived from the address of the second register, this value is ignored as the control unit tells the mux to not propagate this value forward.
 
 ## Development Process
 
