@@ -10,7 +10,7 @@ The immediate generator is a crucial element in the CPU architecture, enabling t
 - **Immediate Output:** Produces a sign-extended immediate value, typically 32 bits wide, for use in ALU operations, address calculations, and control flow changes.
   
 <br/>
-This immediate value will be added and selected by the control unit if the opcode of the instruction is an I-type instruction, and this output is then passed into a mux that regulates whether or not the immediate value passes through. For R-type instructions for example where the second operand is the value derived from the address of the second register, this value is ignored as the control unit tells the mux to not propagate this value forward to the second input of the ALU module.
+This immediate value will be added and selected by the control unit if for example, the opcode of the instruction is an I-type instruction, then this output will be passed into a mux that regulates whether or not the immediate value passes through. For R-type instructions for example where the second operand is the value derived from the address of the second register, this value is ignored as the control unit tells the mux to not propagate this value forward to the second input of the ALU module.
 
 ## Development Process
 
@@ -23,7 +23,7 @@ The immediate value is extracted based on the instruction format, which varies f
 - **U-type Instructions:** Immediate is extracted from bits [31:12].
 - **J-type Instructions:** Immediate is formed by combining bits [31], [19:12], [20], and [30:21].
 </br>
-You'll notice that in this project, I've omitted U-type instructions as I won't be using those to test my CPU.
+You'll notice that in this project, I've chosen to omit U-type instructions as I felt using R-type, I-type, J-type, and B-type instructions are enough for my purposes.
 
 ### Block Diagram
 
