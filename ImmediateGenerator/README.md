@@ -25,8 +25,6 @@ The immediate value is extracted based on the instruction format, which varies f
 </br>
 You'll notice that in this project, I've chosen to omit U-type instructions as I felt using R-type, I-type, J-type, and B-type instructions are enough for my purposes.
 
-### Block Diagram
-
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
