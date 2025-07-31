@@ -36,13 +36,13 @@ begin
     wait for 10 ns;
     assert (instruction = x"00400093") report "Instruction fetch failed at address 0" severity error;
 
-    pc <= x"00000004";
+    pc <= x"00000001";
     wait for 10 ns;
-    assert (instruction = x"00800113") report "Instruction fetch failed at address 4" severity error;
+    assert (instruction = x"00100113") report "Instruction fetch failed at address 4" severity error;
 
-    pc <= x"00000008";
+    pc <= x"0000000C";
     wait for 10 ns;
-    assert (instruction = x"00A00193") report "Instruction fetch failed at address 8" severity error;
+    assert (instruction = x"FE000FE3") report "Instruction fetch failed at address 8" severity error;
 
     -- End simulation
     wait;
