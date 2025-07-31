@@ -13,8 +13,6 @@ The ALU is a fundamental component of the CPU architecture, executing operations
 
 ## Development Process
 
-### Block Diagram
-
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
