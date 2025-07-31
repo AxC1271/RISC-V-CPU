@@ -2,15 +2,15 @@
 
 Welcome to the Program Counter module of this RISC-V processor project. This component is responsible for tracking the current instruction address during CPU operations. Below, you'll find an overview of the program counter's functionality, development process, and theoretical background.
 
-## Overview
+## 🧠 Overview
 The program counter is a crucial element in the CPU architecture, responsible for maintaining the address of the current instruction being executed. It ensures the sequential flow of instruction execution by incrementing the address after each instruction cycle.
 
-## Functionality
+## ⚙️ Functionality
 - **Address Storage:** Holds the address of the current instruction in bytes.
 - **Increment:** Automatically increments by 4 after each instruction, pointing to the next instruction.
 - **Reset:** Can be reset to a specific address, typically the start of the program.
 
-## Development Process
+## ✍ Development Process
 
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
@@ -160,7 +160,7 @@ Here are the waveforms on Vivado to show proof of correctness.
   </em>  
 </p>
 
-## Theoretical Background
+## 💡 Theoretical Background
 
 ### Purpose
 The program counter is essential for controlling the flow of instruction execution in the CPU. By maintaining and updating the instruction address, it ensures that the CPU processes instructions in the correct sequence.
@@ -169,6 +169,6 @@ The program counter is essential for controlling the flow of instruction executi
 - Increment: Automatically advances to the next instruction address after each cycle.
 - Reset: Can be set to a specific address to start execution from a new point, useful for program initialization or branching.
 
-## Importance
+## 🔑 Importance
 An efficient program counter design is crucial for optimizing CPU performance, as it directly impacts the control flow and execution speed of instructions.
 
