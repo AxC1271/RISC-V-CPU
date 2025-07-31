@@ -20,9 +20,9 @@ begin
    begin
       case opcode is
          when "000" => -- ADD
-            res_i <= std_logic_vector(unsigned(op1) + unsigned(op2));
+            res_i <= STD_LOGIC_VECTOR(unsigned(op1) + unsigned(op2));
          when "001" => -- SUB
-            res_i <= std_logic_vector(unsigned(op1) - unsigned(op2));
+            res_i <= STD_LOGIC_VECTOR(unsigned(op1) - unsigned(op2));
          when "010" => -- AND
             res_i <= op1 and op2;
          when "011" => -- OR
@@ -36,9 +36,9 @@ begin
                res_i <= (others => '0');
             end if;
          when "110" => -- SLL 
-            res_i <= std_logic_vector(shift_left(unsigned(op1), to_integer(unsigned(op2(4 downto 0)))));
+            res_i <= STD_LOGIC_VECTOR(shift_left(unsigned(op1), to_integer(unsigned(op2(4 downto 0)))));
          when "111" => -- SRL 
-            res_i <= std_logic_vector(shift_right(unsigned(op1), to_integer(unsigned(op2(4 downto 0)))));
+            res_i <= STD_LOGIC_VECTOR(shift_right(unsigned(op1), to_integer(unsigned(op2(4 downto 0)))));
          when others =>
             res_i <= (others => '0');
       end case;
