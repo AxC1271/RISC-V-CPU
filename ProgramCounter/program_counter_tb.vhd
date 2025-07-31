@@ -20,6 +20,7 @@ architecture Behavioral of program_counter_tb is
     -- internal signals for testing program counter functionality
     signal clk : STD_LOGIC := '0';
     signal rst : STD_LOGIC := '0';
+    signal enable : STD_LOGIC := '0';
     signal pc_src : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
     signal pc : STD_LOGIC_VECTOR(31 downto 0);
 
@@ -32,6 +33,7 @@ begin
         port map (
             clk => clk,
             rst => rst,
+            enable => enable,
             pc_src => pc_src,
             pc => pc
         );
@@ -50,7 +52,7 @@ begin
     -- test simulation here
     stimulus: process
     begin
-        -- Apply reset and allow reset to take effect
+        -- apply reset and allow reset to take effect so that outputs are defined
         rst <= '1';
         wait for clk_period;
         rst <= '0';
@@ -59,9 +61,10 @@ begin
         -- test case #1: Set PC to 0x00000004
         pc_src <= x"00000004";
         wait for clk_period;
-        assert (pc = x"00000004") report "PC update failed at 4" severity error;
+        assert (pc = x"00000000") report "PC update failed at 4" severity error; -- since enable is low
 
-        -- test case #2: Set PC to 0x00000008
+        -- test case #2: Set PC to 0x00000008 and enable high
+        enable <= '1';
         pc_src <= x"00000008";
         wait for clk_period;
         assert (pc = x"00000008") report "PC update failed at 8" severity error;
@@ -70,6 +73,11 @@ begin
         pc_src <= x"0000000C";
         wait for clk_period;
         assert (pc = x"0000000C") report "PC update failed at C" severity error;
+
+        -- last test case: set enable to 0 again, then try updating PC
+        pc_src <= x"00000010";
+        wait for clk_period;
+        assert (pc = x"0000000C") report "PC update failed at C" severity error; -- should hold onto last PC
 
         -- test case #4: Reset again and check PC returns to zero
         rst <= '1';
