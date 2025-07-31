@@ -90,7 +90,7 @@ end Behavioral;
 
 ### Testing
 
-Here's the testbench sript that I wrote for the immediate generator.
+Here's the testbench sript that I wrote for the immediate generator. Since we already have the instruction memory available, let's validate if the immediate values are what they should be from the binary instructions.
 
 ```VHDL
 library IEEE;
@@ -124,29 +124,38 @@ begin
 
   stimulus: process
   begin
-    -- I-type: addi x1, x2, 5 (imm = 5)
-    instruction <= x"00510113";
+    instruction x"00000093"; -- 0. addi x1, x0, 0
     wait for 10 ns;
-    assert (immediate = x"00000005")
+    assert (immediate = x"00000000")
       report "I-type immediate extraction failed" severity error;
 
-    -- S-type: sw x1, 8(x2) (imm = 8)
-    instruction <= x"00112023";
+    instruction <= x"00B00293"; -- 3. addi x5, x0, 11";
     wait for 10 ns;
-    assert (immediate = x"00000008")
-      report "S-type immediate extraction failed" severity error;
+    assert (immediate = x"0000000B")
+      report "I-type immediate extraction failed" severity error;
 
-    -- B-type: beq x1, x2, 8 (imm = 8)
-    instruction <= x"00208263";
+    instruction <= x"00428763"; -- 4. beq x4, x5, 7
     wait for 10 ns;
-    assert (immediate = x"00000008")
+    assert (immediate = x"00000007")
       report "B-type immediate extraction failed" severity error;
 
-    -- J-type: jal x1, 16 (imm = 16)
-    instruction <= x"010000EF";
+    instruction <= x"00120213"; -- 9. addi x4, x4, 1
+    wait for 10 ns;
+    assert (immediate = x"00000001")
+      report "I-type immediate extraction failed" severity error;
+
+    -- beyond this point, we'll test other types of instructions to
+    -- make sure J-type and S-type instructions work as well
+
+    instruction <= x"010000EF"; -- J-type: jal x1, 16 (imm = 16) 
     wait for 10 ns;
     assert (immediate = x"00000010")
       report "J-type immediate extraction failed" severity error;
+
+    instruction <= x"00112023"; -- S-type: sw x1, 8(x2) (imm = 8)
+    wait for 10 ns;
+    assert (immediate = x"00000008")
+      report "S-type immediate extraction failed" severity error;
 
     report "All immediate extraction tests passed!";
     wait;
