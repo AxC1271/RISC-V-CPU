@@ -14,8 +14,6 @@ The data memory is a crucial element in the CPU architecture, providing a space 
 
 ## Development Process
 
-### Block Diagram
-
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
