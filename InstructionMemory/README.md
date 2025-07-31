@@ -2,15 +2,15 @@
 
 Welcome to the Instruction Memory module of this RISC-V processor project. This component is responsible for storing and providing instructions to the CPU during execution. Below, you'll find an overview of the instruction memory's functionality, development process, and theoretical background.
 
-## Overview
+## 🧠 Overview
 The instruction memory is a crucial element in the CPU architecture, holding the program's instructions and supplying them to the CPU as directed by the program counter. It ensures that the CPU has access to the correct instructions for execution.
 
-## Functionality
+## ⚙️ Functionality
 - **Instruction Storage:** Contains a predefined set of instructions stored in memory.
 - **Instruction Fetch:** Provides the current instruction based on the program counter's address.
 - **Reset:** Can reset the output instruction to zero, ensuring a known state.
 
-## Development Process
+## ✍ Development Process
 
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
@@ -224,7 +224,8 @@ Finalized Hexadecimal Instructions for Compactness:
 
 ```
 
-## Theoretical Background
+## 💡 Theoretical Background
+
 ### Purpose
 The instruction memory is essential for storing the program's instructions and supplying them to the CPU for execution. By maintaining a set of instructions, it ensures that the CPU can perform operations as intended.
 
@@ -232,5 +233,5 @@ The instruction memory is essential for storing the program's instructions and s
 - Fetch: Retrieves the current instruction based on the program counter's address.
 - Reset: Ensures a known state by resetting the output instruction.
 
-## Importance
+## 🔑 Importance
 An efficient instruction memory design is crucial for optimizing CPU performance, as it directly impacts the speed and accuracy of instruction execution. This README provides a structured overview of the instruction memory component, highlighting its role and functionality within the CPU architecture.
