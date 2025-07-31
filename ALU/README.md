@@ -41,9 +41,9 @@ begin
    begin
       case opcode is
          when "000" => -- ADD
-            res_i <= std_logic_vector(unsigned(op1) + unsigned(op2));
+            res_i <= STD_LOGIC_VECTOR(unsigned(op1) + unsigned(op2));
          when "001" => -- SUB
-            res_i <= std_logic_vector(unsigned(op1) - unsigned(op2));
+            res_i <= STD_LOGIC_VECTOR(unsigned(op1) - unsigned(op2));
          when "010" => -- AND
             res_i <= op1 and op2;
          when "011" => -- OR
@@ -57,9 +57,9 @@ begin
                res_i <= (others => '0');
             end if;
          when "110" => -- SLL 
-            res_i <= std_logic_vector(shift_left(unsigned(op1), to_integer(unsigned(op2(4 downto 0)))));
+            res_i <= STD_LOGIC_VECTOR(shift_left(unsigned(op1), to_integer(unsigned(op2(4 downto 0)))));
          when "111" => -- SRL 
-            res_i <= std_logic_vector(shift_right(unsigned(op1), to_integer(unsigned(op2(4 downto 0)))));
+            res_i <= STD_LOGIC_VECTOR(shift_right(unsigned(op1), to_integer(unsigned(op2(4 downto 0)))));
          when others =>
             res_i <= (others => '0');
       end case;
@@ -122,63 +122,62 @@ begin
   -- simulate process
   stimulus: process
   begin
-    -- Test ADD operation
+    -- add operation
     op1 <= x"00000001";
     op2 <= x"00000001";
     opcode <= "000";
     wait for 10 ns;
     assert (res = x"00000002" and zero_flag = '0') report "ADD failed" severity error;
 
-    -- Test SUB operation
+    -- sub operation
     op1 <= x"00000002";
     op2 <= x"00000001";
     opcode <= "001";
     wait for 10 ns;
     assert (res = x"00000001" and zero_flag = '0') report "SUB failed" severity error;
 
-    -- Test AND operation
+    -- and operation
     op1 <= x"00000003";
     op2 <= x"00000001";
     opcode <= "010";
     wait for 10 ns;
     assert (res = x"00000001" and zero_flag = '0') report "AND failed" severity error;
 
-    -- Test OR operation
+    -- op operation
     op1 <= x"00000002";
     op2 <= x"00000001";
     opcode <= "011";
     wait for 10 ns;
     assert (res = x"00000003" and zero_flag = '0') report "OR failed" severity error;
 
-    -- Test XOR operation
+    -- xor operation
     op1 <= x"00000003";
     op2 <= x"00000001";
     opcode <= "100";
     wait for 10 ns;
     assert (res = x"00000002" and zero_flag = '0') report "XOR failed" severity error;
 
-    -- Test SLT operation
+    -- slt operation
     op1 <= x"00000001";
     op2 <= x"00000002";
     opcode <= "101";
     wait for 10 ns;
     assert (res = x"00000001" and zero_flag = '0') report "SLT failed" severity error;
 
-    -- Test SLL operation
+    -- sll operation
     op1 <= x"00000001";
     op2 <= x"00000001";
     opcode <= "110";
     wait for 10 ns;
     assert (res = x"00000002" and zero_flag = '0') report "SLL failed" severity error;
 
-    -- Test SRL operation
+    -- srl operation
     op1 <= x"00000002";
     op2 <= x"00000001";
     opcode <= "111";
     wait for 10 ns;
     assert (res = x"00000001" and zero_flag = '0') report "SRL failed" severity error;
 
-    -- End simulation
     wait;
   end process stimulus;
 
