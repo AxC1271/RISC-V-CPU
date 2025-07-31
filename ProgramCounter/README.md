@@ -156,8 +156,8 @@ Here are the waveforms on Vivado to show proof of correctness.
 
 <p align="center">
   <em>
-    *Figure 1: Simulation waveform showing that the program counter behaves as expected — 
-    the PC updates to pc_src on rising clock edges and resets correctly when rst is high.*  
+    Figure 1: Simulation waveform showing that the program counter behaves as expected — 
+    the PC updates to pc_src on rising clock edges and resets correctly when rst is high. 
   </em>  
 </p>
 
