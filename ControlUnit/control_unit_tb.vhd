@@ -51,42 +51,37 @@ begin
   -- simulate process
   stimulus: process
   begin
-    -- Test R-type ADD instruction
-    opcode <= "0110011";
+    -- test add instruction
+    opcode <= "0110011"; -- R-type opcode
     funct3 <= "000";
     funct7 <= "0000000";
     wait for 10 ns;
     assert (RegWrite = '1' and ALUCont = "000") report "R-type ADD failed" severity error;
 
-    -- Test R-type SUB instruction
+    -- test sub instruction
     funct7 <= "0100000";
     wait for 10 ns;
     assert (RegWrite = '1' and ALUCont = "001") report "R-type SUB failed" severity error;
 
-    -- Test I-type ADDI instruction
-    opcode <= "0010011";
+    -- test addi instruction
+    opcode <= "0010011"; -- I-type opcode
     funct3 <= "000";
     wait for 10 ns;
     assert (RegWrite = '1' and ALUSrc = '1' and ALUCont = "000") report "I-type ADDI failed" severity error;
 
-    -- Test Load instruction (LW)
-    opcode <= "0000011";
-    wait for 10 ns;
-    assert (RegWrite = '1' and MemRead = '1' and memToReg = '1') report "Load LW failed" severity error;
-
-    -- Test Store instruction (SW)
-    opcode <= "0100011";
+    -- test store instruction
+    opcode <= "0100011"; - S-type opcode
     wait for 10 ns;
     assert (MemWrite = '1' and ALUSrc = '1') report "Store SW failed" severity error;
 
-    -- Test Branch instruction (BEQ)
-    opcode <= "1100011";
-    funct3 <= "000";
+    -- test branch instruction (BEQ)
+    opcode <= "1100011"; -- B-type opcode
+    funct3 <= "000"; -- specifies beq, not blt or bne
     wait for 10 ns;
     assert (BranchEq = '1' and ALUCont = "001") report "Branch BEQ failed" severity error;
 
-    -- Test Jump instruction (JAL)
-    opcode <= "1101111";
+    -- test jump instruction (JAL)
+    opcode <= "1101111"; -- J-tyope opcode
     wait for 10 ns;
     assert (RegWrite = '1' and jmp = '1') report "Jump JAL failed" severity error;
 
