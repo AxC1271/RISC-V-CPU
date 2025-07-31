@@ -18,7 +18,7 @@ The register file consists of 32 registers, each 32 bits wide. It uses a 5-bit s
 - A 32-bit wide read value
 
 ### Program Counter
-The program counter is a register that stores the current instruction address (in bytes) and increments by 4 once the instruction has been completed in the CPU.
+The program counter is a register that stores the current instruction address (in bytes) and increments by 4 or by whatever immediate value from a branch/jump instruction. For this project, since I'm not using byte addressing and just plain word addressing, the increment is 1.
 
 ### Control Unit
 The control unit processes the instruction fetched from the instruction memory and sends out the appropriate control flags to the rest of the CPU. This includes ALU opcodes, writing to the appropriate registers, and reading from the correct memory address.
