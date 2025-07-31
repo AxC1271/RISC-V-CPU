@@ -147,7 +147,7 @@ Referring to the ISA for this CPU implementation, I have the following instructi
 5.  add x3, x1, x2   ; fib = a + b
 6.  addi x1, x2, 0   ; a = b
 7.  addi x2, x3, 0   ; b = fib  
-8.  prnt x3          ; print fib
+8.  prnt x3          ; print fib, defined custom opcode as "1111111"
 9.  addi x4, x4, 1   ; i++
 10. beq x0, x0, -6   ; goto loop condition check
 11. prnt x3          ; print last Fibonacci number
