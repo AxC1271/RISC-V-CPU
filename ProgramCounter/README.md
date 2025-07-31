@@ -133,6 +133,7 @@ begin
         assert (pc = x"0000000C") report "PC update failed at C" severity error;
 
         -- last test case: set enable to 0 again, then try updating PC
+        enable <= '0';
         pc_src <= x"00000010";
         wait for clk_period;
         assert (pc = x"0000000C") report "PC update failed at C" severity error; -- should hold onto last PC
