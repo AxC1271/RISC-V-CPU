@@ -12,8 +12,6 @@ The control unit is a vital element in the CPU architecture, interpreting instru
 
 ## Development Process
 
-### Block Diagram
-
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
