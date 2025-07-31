@@ -227,16 +227,10 @@ begin
     assert (BranchEq = '1' and ALUCont = "001") report "Branch BEQ failed" severity error;
 
     -- test jump instruction (JAL)
-    opcode <= "1101111"; -- J-tyope opcode
+    opcode <= "1101111"; -- J-type opcode
     wait for 10 ns;
     assert (RegWrite = '1' and jmp = '1') report "Jump JAL failed" severity error;
 
-    -- Test Jump instruction (JALR)
-    opcode <= "1100111";
-    wait for 10 ns;
-    assert (RegWrite = '1' and jmp = '1') report "Jump JALR failed" severity error;
-
-    -- End simulation
     wait;
   end process stimulus;
 
