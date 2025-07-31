@@ -27,10 +27,15 @@ Simulation and hardware debugging strategies:
 
 When deployed on hardware, the 2 Hz slow clock allows visual step-by-step execution of instructions using visible LEDs and 7-segment display output.
 
-### Design
-
 ### Script for the CPU
 Here's the C code for our Fibonacci sequence. To find how I derived the 32-bit instructions in binary, check out the [InstructionMemory](../InstructionMemory) module.
+
+<p align="center">
+  <em>
+    To see the RTL code of the CPU, check te VHDL code in this directory. 
+    I've decided to omit it from the README due to how long it is.
+  </em>
+</p>
 
 ```C
 // Simple C program to print out the Fibonacci sequence
