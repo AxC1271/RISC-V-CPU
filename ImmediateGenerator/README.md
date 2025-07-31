@@ -2,17 +2,18 @@
 
 Welcome to the Immediate Generator module of this RISC-V processor project. This component is responsible for extracting and sign-extending immediate values from instructions, which are used in various operations such as arithmetic calculations, memory addressing, and control flow changes. Below, you'll find an overview of the immediate generator's functionality, development process, and theoretical background.
 
-## Overview
+## 🧠 Overview
 The immediate generator is a crucial element in the CPU architecture, enabling the processor to handle instructions that require immediate values. It extracts these values from specific bits in the instruction and prepares them for use in subsequent operations.
 
-## Functionality
+## ⚙️ Functionality
 - **Instruction Input:** Accepts a 32-bit instruction from which the immediate value is extracted.
 - **Immediate Output:** Produces a sign-extended immediate value, typically 32 bits wide, for use in ALU operations, address calculations, and control flow changes.
   
 <br/>
+
 This immediate value will be added and selected by the control unit if for example, the opcode of the instruction is an I-type instruction, then this output will be passed into a mux that regulates whether or not the immediate value passes through. For R-type instructions for example where the second operand is the value derived from the address of the second register, this value is ignored as the control unit tells the mux to not propagate this value forward to the second input of the ALU module.
 
-## Development Process
+## ✍ Development Process
 
 ### Instruction Format
 The immediate value is extracted based on the instruction format, which varies for different types of instructions:
@@ -165,7 +166,7 @@ end Behavioral;
 Here's the subsequent waveform of that test bench for the immediate generator.
 
 
-## Theoretical Background
+## 💡 Theoretical Background
 
 ### Purpose
 The immediate generator is essential for extracting and preparing immediate values from instructions, enabling the CPU to perform operations that require immediate operands. By handling different instruction formats, it ensures that the processor can execute a wide range of instructions efficiently.
@@ -174,5 +175,5 @@ The immediate generator is essential for extracting and preparing immediate valu
 - Extraction: Retrieves immediate values from specific bits in the instruction.
 - Sign Extension: Ensures immediate values are correctly sign-extended for use in calculations.
 
-## Importance
+## 🔑 Importance
 An efficient immediate generator design is crucial for optimizing CPU performance, as it directly impacts the execution of instructions that rely on immediate values. Understanding the instruction format and how to extract these values is key to implementing a RISC-V processor.
