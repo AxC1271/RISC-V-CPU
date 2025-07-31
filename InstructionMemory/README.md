@@ -68,13 +68,13 @@ architecture Behavioral of instruction_memory_tb is
   -- define the component under test
   component instruction_memory
     port (
-      pc : in STD_LOGIC_VECTOR(11 downto 0);
+      pc : in STD_LOGIC_VECTOR(31 downto 0);
       instruction : out STD_LOGIC_VECTOR(31 downto 0)
     );
   end component;
 
   -- define all intermediary signals here
-  signal pc : STD_LOGIC_VECTOR(11 downto 0);
+  signal pc : STD_LOGIC_VECTOR(31 downto 0);
   signal instruction : STD_LOGIC_VECTOR(31 downto 0);
 
   -- start simulation here
@@ -109,6 +109,8 @@ begin
 
 end Behavioral;
 ```
+
+Here's the provided waveform of the simulation to prove its correctness:
 
 In this demo, we would load the following C program to print out a Fibonacci sequence:
 
