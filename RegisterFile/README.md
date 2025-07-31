@@ -15,8 +15,6 @@ The register file is a key element in the CPU architecture, consisting of 32 reg
 
 ## Development Process
 
-### Block Diagram
-
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
