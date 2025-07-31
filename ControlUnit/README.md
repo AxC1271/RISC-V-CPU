@@ -2,15 +2,15 @@
 
 Welcome to the Control Unit module of this RISC-V processor project. This component is responsible for generating control signals based on the instruction being executed, enabling the CPU to perform operations such as arithmetic, memory access, and branching. Below, you'll find an overview of the control unit's functionality, development process, and theoretical background.
 
-## Overview
+## 🧠 Overview
 The control unit is a vital element in the CPU architecture, interpreting instruction fields to produce control signals that guide the operation of other components like the ALU, register file, and memory. It supports a range of instructions, including arithmetic, load/store, and branch operations.
 
-## Functionality
+## ⚙️ Functionality
 - **Instruction Decoding:** Interprets opcode, funct3, and funct7 fields to determine the instruction type.
 - **Control Signal Generation:** Produces signals such as RegWrite, MemRead, MemWrite, BranchEq, ALUSrc, and ALUCont to control CPU operations.
 - **Jump Handling:** Manages jump instructions, updating the program counter as needed.
 
-## Development Process
+## ✍ Development Process
 
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
@@ -235,7 +235,7 @@ begin
 end Behavioral;
 ```
 
-## Theoretical Background
+## 💡 Theoretical Background
 
 ### Purpose
 The control unit is essential for interpreting instructions and generating the necessary control signals to guide CPU operations. It ensures that each instruction is executed correctly by coordinating the actions of various CPU components.
@@ -244,6 +244,6 @@ The control unit is essential for interpreting instructions and generating the n
 - Instruction Decoding: Analyzes instruction fields to determine the operation type.
 - Signal Generation: Produces control signals that dictate the behavior of the ALU, memory, and other components.
 
-## Importance
+## 🔑 Importance
 An efficient control unit design is crucial for optimizing CPU performance, as it directly impacts the execution speed and accuracy of instructions. <br>
 This README provides a structured overview of the control unit component, highlighting its role and functionality within the CPU architecture. Adjust the details as needed to fit your specific implementation and design choices.
