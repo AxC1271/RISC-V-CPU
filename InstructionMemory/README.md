@@ -155,6 +155,8 @@ Referring to the ISA for this CPU implementation, I have the following instructi
 11. prnt x3          ; print last Fibonacci number
 12. beq x0, x0, -1   ; infinite loop printing last value
 ```
+<br>
+<br>
 
 <p align="center">
     <img src="../riscv-instructionformat.png" />
