@@ -2,17 +2,17 @@
 
 Welcome to the Data Memory module of this RISC-V processor project. This component is responsible for storing and retrieving data during program execution, facilitating load and store operations. Below, you'll find an overview of the data memory's functionality, development process, and theoretical background.
 
-## Overview
+## 🧠 Overview
 The data memory is a crucial element in the CPU architecture, providing a space for data storage and access. It interacts with the CPU to perform load and store operations, enabling the processor to handle variables, arrays, and other data structures efficiently.
 
-## Functionality
+## ⚙️ Functionality
 - **Address Input:** Specifies the memory location to read from or write to, typically derived from the result of an ALU operation.
 - **MemRead:** A control signal indicating whether a read operation should be performed.
 - **MemWrite:** A control signal indicating whether a write operation should be performed.
 - **Write Data:** The data to be written to memory during a store operation.
 - **Read Data:** The data read from memory during a load operation.
 
-## Development Process
+## ✍ Development Process
 
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
@@ -168,7 +168,7 @@ end Behavioral;
 
 Here's the waveform to ensure proper behavior for the data memory module.
 
-## Theoretical Background
+## 💡 Theoretical Background
 
 ### Purpose
 The data memory is essential for storing and accessing data during program execution. By providing a space for data storage, it enables the CPU to handle variables, arrays, and other data structures efficiently.
@@ -177,5 +177,5 @@ The data memory is essential for storing and accessing data during program execu
 - Load: Retrieves data from specified memory locations using the address input.
 - Store: Writes data to specified memory locations using the address input.
 
-## Importance
+## 🔑 Importance
 An efficient data memory design is crucial for optimizing CPU performance, as it directly impacts the speed and accuracy of data access and manipulation. Understanding the interaction between the CPU and data memory is key to implementing a RISC-V processor.
