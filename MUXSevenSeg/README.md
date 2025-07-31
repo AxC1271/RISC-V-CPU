@@ -134,4 +134,4 @@ end Behavioral;
 
 ---
 
-Feel free to explore the project files for more detailed information on implementation and integration. This display is a valuable tool for enhancing the development and debugging process of the RISC-V CPU.
+Feel free to explore the project files for more detailed information on implementation and integration. This display is a valuable tool for enhancing the development and debugging process of the RISC-V CPU. For this module, no testbench is provided given that it's VHDL code from a previous project and it felt relatively trivial compared to the rest of the hardware components in the CPU.
