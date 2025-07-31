@@ -56,6 +56,3 @@ set_property IOSTANDARD LVCMOS33 [get_ports led[8]]
 set_property IOSTANDARD LVCMOS33 [get_ports led[9]]
 set_property IOSTANDARD LVCMOS33 [get_ports led[10]]
 set_property IOSTANDARD LVCMOS33 [get_ports led[11]]
-
-# Timing constraints to help with clock domain crossing
-set_false_path -from [get_clocks sys_clk] -to [get_pins PC/pc_reg*/D]
