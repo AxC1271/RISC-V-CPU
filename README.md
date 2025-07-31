@@ -1,10 +1,10 @@
-# RISC-V CPU FPGA Implementation using VHDL Overview
+# RISC-V CPU FPGA Implementation
 Welcome to the RISC-V CPU FPGA Implementation project! Inspired by my computer architecture course at Case Western, this project aims to design and implement a processor based on the RISC-V architecture using VHDL.
 
-## Overview 
+## 🧠 Overview 
 This project involves creating a RISC-V compatible CPU on an FPGA, focusing on the hardware components and CPU architecture. The CPU follows the standard instruction cycle: fetch → decode → execute → memory access → write-back, interacting with RAM to store computation results.
 
-## CPU Architecture Theory
+## ⚙️ CPU Architecture Theory
 <img src="./riscv-architecture.png" />
 
 ### Instruction Memory
@@ -32,7 +32,7 @@ The ALU performs all mathematical computations within the CPU, including additio
 ### Datapath
 The datapath takes the results from the ALU and control flags to determine where to write back to the register files, completing the CPU execution cycle.
 
-## Software Implementation
+## 🖥️ Software Implementation
 Eventually, the goal is to take any simple C code (for the video demo we'll use the following provided C code) and convert it to the 32-bit instructions necessary for the CPU to perform calculations.
 
 ```C
@@ -50,6 +50,9 @@ int main() {
    return 0;
 }
 ```
+
+## 📹 Video Demo
+
 --- 
 
 Please go into each subproject folder to see more in detail.
