@@ -197,9 +197,13 @@ end Behavioral;
 ```
 
 Here are the waveforms on Vivado to show proof of correctness.
-<img src="./Waveform.png" />
+<p align="center">
+    <img src="./Waveform.png" />
+</p>
+<p align="center">
+    <em>Figure 1: Simulation waveform shows the register file module behaving as expected.</em>
+</p>
 
-*Figure 1: Simulation waveform shows the register file module behaving as expected.*
 
 ## Theoretical Background
 
