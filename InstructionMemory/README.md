@@ -112,7 +112,7 @@ end Behavioral;
 
 Here's the provided waveform of the simulation to prove its correctness:
 
-In this demo, we would load the following C program to print out a Fibonacci sequence:
+If you want to see how I derived the binary instructions for the CPU, you can refer to here and the RISC-V instruction format.
 
 ```C
 // Simple C program to print out the Fibonacci sequence
