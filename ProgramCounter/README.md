@@ -12,8 +12,6 @@ The program counter is a crucial element in the CPU architecture, responsible fo
 
 ## Development Process
 
-### Block Diagram
-
 ### Design
 <div style="max-width: 800px; overflow-x: auto;">
     
