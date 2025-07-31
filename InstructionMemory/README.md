@@ -132,7 +132,7 @@ int main() {
 }
 ```
 
-Referring to my custom made ISA for this CPU implementation, I have the following instructions:
+Referring to the ISA for this CPU implementation, I have the following instructions:
 
 ```asm
 ; define x0 as the zero register  
@@ -155,6 +155,13 @@ Referring to my custom made ISA for this CPU implementation, I have the followin
 11. prnt x3          ; print last Fibonacci number
 12. beq x0, x0, -1   ; infinite loop printing last value
 ```
+
+<p align="center">
+    <img src="../riscv-instructionformat.png" />
+</p>
+<p align="center">
+    <em>Instruction Format of RISC-V instructions.</em>
+</p>
 
 Now, if we convert them to the 32-bit binary instructions referring to the instruction format of RISC-V (and nmy custom print function), we'll get:
 
