@@ -27,46 +27,6 @@ Simulation and hardware debugging strategies:
 
 When deployed on hardware, the 2 Hz slow clock allows visual step-by-step execution of instructions using visible LEDs and 7-segment display output.
 
-### Script for the CPU
-Here's the C code for our Fibonacci sequence. To find how I derived the 32-bit instructions in binary, check out the [InstructionMemory](../InstructionMemory) module.
-
-```C
-// Simple C program to print out the Fibonacci sequence
-int main() {
-    int a = 0;
-    int b = 1;
-    int fib = 0;
-
-    for (int i = 0; i < 11; i++) {
-        fib = a + b;
-        a = b;
-        b = fib;
-        printf("%d\n", fib);
-    }
-
-  return 0;
-}
-```
-<br/>
-
-```
-// Converted Binary Instructions
-0      => x"00000093", -- addi x1, x0, 0
-1      => x"00100113", -- addi x2, x0, 1
-2      => x"00000213", -- addi x4, x0, 0
-3      => x"00B00293", -- addi x5, x0, 11
-4      => x"00520763", -- beq x4, x5, 7
-5      => x"002081B3", -- add x3, x1, x2
-6      => x"00010093", -- addi x1, x2, 0
-7      => x"00018113", -- addi x2, x3, 0
-8      => x"0001807F", -- prnt x3
-9      => x"00120213", -- addi x4, x4, 1
-10     => x"FE000AE3", -- beq x0, x0, -6, wrap around
-11     => x"0001807F", -- prnt x3 ; this should stop at 144!
-12     => x"FE000FE3", -- beq x0, x0, -1
-others => x"00000000"
-```
-
 ## 💡 Importance
 This top-level module:
 
