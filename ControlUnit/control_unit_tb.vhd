@@ -70,7 +70,7 @@ begin
     assert (RegWrite = '1' and ALUSrc = '1' and ALUCont = "000") report "I-type ADDI failed" severity error;
 
     -- test store instruction
-    opcode <= "0100011"; - S-type opcode
+    opcode <= "0100011"; -- S-type opcode
     wait for 10 ns;
     assert (MemWrite = '1' and ALUSrc = '1') report "Store SW failed" severity error;
 
