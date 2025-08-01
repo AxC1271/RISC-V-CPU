@@ -167,6 +167,9 @@ Notice I am using both instructions from my instruction memory and instructions 
 <p align="center">
   <img src="./Waveform.png" />
 </p>
+<p align="center">
+  <em>The waveform output matches the expected output in the comments of the testbench.</em>
+</p>
 
 ## 💡 Theoretical Background
 
