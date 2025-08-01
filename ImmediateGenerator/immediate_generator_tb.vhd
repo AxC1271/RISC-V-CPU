@@ -52,12 +52,12 @@ begin
     -- beyond this point, we'll test other types of instructions to
     -- make sure J-type and S-type instructions work as well
 
-    instruction <= x"010000EF"; -- J-type: jal x1, 16 (imm = 16) 
+    instruction <= x"020000EF"; -- J-type: jal x1, 16 (imm = 16) 
     wait for 10 ns;
     assert (immediate = x"00000010")
       report "J-type immediate extraction failed" severity error;
 
-    instruction <= x"00112023"; -- S-type: sw x1, 8(x2) (imm = 8)
+    instruction <= x"00112423"; -- S-type: sw x1, 8(x2) (imm = 8)
     wait for 10 ns;
     assert (immediate = x"00000008")
       report "S-type immediate extraction failed" severity error;
