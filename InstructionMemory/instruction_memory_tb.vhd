@@ -9,13 +9,13 @@ architecture Behavioral of instruction_memory_tb is
   -- define the component under test
   component instruction_memory
     port (
-      pc : in STD_LOGIC_VECTOR(31 downto 0);
+      pc : in STD_LOGIC_VECTOR(11 downto 0);
       instruction : out STD_LOGIC_VECTOR(31 downto 0)
     );
   end component;
 
   -- define all intermediary signals here
-  signal pc : STD_LOGIC_VECTOR(31 downto 0);
+  signal pc : STD_LOGIC_VECTOR(11 downto 0);
   signal instruction : STD_LOGIC_VECTOR(31 downto 0);
 
   -- start simulation here
@@ -32,17 +32,17 @@ begin
   begin
 
     -- Test instruction fetch
-    pc <= x"00000000";
+    pc <= x"000";
     wait for 10 ns;
-    assert (instruction = x"00400093") report "Instruction fetch failed at address 0" severity error;
+    assert (instruction = x"00000093") report "Instruction fetch failed at address 0" severity error;
 
-    pc <= x"00000001";
+    pc <= x"004";
     wait for 10 ns;
-    assert (instruction = x"00100113") report "Instruction fetch failed at address 4" severity error;
+    assert (instruction = x"00428763") report "Instruction fetch failed at address 4" severity error;
 
-    pc <= x"0000000C";
+    pc <= x"008";
     wait for 10 ns;
-    assert (instruction = x"FE000FE3") report "Instruction fetch failed at address 8" severity error;
+    assert (instruction = x"0001807F") report "Instruction fetch failed at address 8" severity error;
 
     -- End simulation
     wait;
