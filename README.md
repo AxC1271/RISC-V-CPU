@@ -62,8 +62,35 @@ This is a CPU running one instruction per program counter cycle but has no multi
 - Visually see the program counter update incrementally using the Basys3 LED's
 - Easily validate the seven-seg output from the multiplexer module
 - Focus on the instruction decoding, computation, and writeback stages
+- No way of handling data hazards (RAW hazards for example)
 
 Despite these limitations, the CPU is still able to execute instructions in sequential order and handle branch jumps as shown in the video demo. For a future project, optimization techniques such as the ones listed above will be considered to improve overall hardware performance. Since the clock frequency is so slow, the lack of such features wouldn't impact functionality.
+
+In regards to data hazards,:
+```asm
+; define x0 as the zero register  
+; define x1 as the first Fibonacci number (a)
+; define x2 as the second Fibonacci number (b)  
+; define x3 as the temp printed value (fib)
+; define x4 as i
+; define x5 as limit of loop
+0.  addi x1, x0, 0   ; a = 0
+1.  addi x2, x0, 1   ; b = 1  
+2.  addi x4, x0, 0   ; i = 0
+3.  addi x5, x0, 10  ; loop limit = 10
+4.  beq x4, x5, 7    ; if i == 10, branch 7 instructions ahead
+5.  add x3, x1, x2   ; fib = a + b
+6.  addi x1, x2, 0   ; a = b
+7.  addi x2, x3, 0   ; b = fib  
+8.  prnt x3          ; print fib, defined custom opcode as "1111111"
+9.  addi x4, x4, 1   ; i++
+10. beq x0, x0, -6   ; goto loop condition check
+11. prnt x3          ; print last Fibonacci number
+12. beq x0, x0, -1   ; infinite loop printing last value
+```
+
+This was the old assembly code that I wrote for this CPU and the massive problem was on line 9: `addi x4, x4, 0`. Since my register file was clocked and reg_writes were updated on the rising edge of the clock, this meant that register '0x00000004' was incremented by 1 at least a couple million times, meaning that the BEQ condition on line 4 was never satisfied, therefore the Fibonacci sequence repeated itself infinitely, which was not what I wanted.
+
 
 --- 
 
