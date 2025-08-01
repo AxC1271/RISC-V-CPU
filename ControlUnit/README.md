@@ -236,6 +236,15 @@ begin
 end Behavioral;
 ```
 
+Here's the provided simulated waveform from Vivado:
+
+<p align="center">
+    <img src="./CUWaveform.png" />
+</p>
+<p align="center">
+    <em>Control flags are asserted correctly as expected in the figure.</em>
+</p>
+
 ## 💡 Theoretical Background
 
 ### Purpose
