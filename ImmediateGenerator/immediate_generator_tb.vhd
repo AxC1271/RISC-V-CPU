@@ -29,7 +29,7 @@ begin
 
   stimulus: process
   begin
-    instruction x"00000093"; -- 0. addi x1, x0, 0
+    instruction <= x"00000093"; -- 0. addi x1, x0, 0
     wait for 10 ns;
     assert (immediate = x"00000000")
       report "I-type immediate extraction failed" severity error;
