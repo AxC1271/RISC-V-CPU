@@ -53,7 +53,7 @@ int main() {
 
 ## 📹 Video Demo
 
-**[Watch the working demo here](https://youtu.be/ghEym8AjQQo)** of the RISC-V processor handling the assembly code. I want the FPGA board to "print" the first ten Fibonacci numbers.
+**[Watch the working demo here](https://youtu.be/W9_f-erUfQ4?si=PZiqwoZfcFX9fY8s)** of the RISC-V processor handling the assembly code. I want the FPGA board to "print" the first ten Fibonacci numbers.
 
 ## ⚠️ Limitations
 
