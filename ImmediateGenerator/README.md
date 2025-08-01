@@ -165,7 +165,7 @@ end Behavioral;
 
 Notice I am using both instructions from my instruction memory and instructions not included: that way I can validate the immediates of each instruction are true to help debug my script and as proof of concept. Here's the subsequent waveform of that test bench for the immediate generator.
 <p align="center">
-  <img src="./Waveform.png" />
+  <img src="./IGWaveform.png" />
 </p>
 <p align="center">
   <em>The waveform output matches the expected output in the comments of the testbench.</em>
