@@ -66,13 +66,13 @@ architecture Behavioral of instruction_memory_tb is
   -- define the component under test
   component instruction_memory
     port (
-      pc : in STD_LOGIC_VECTOR(31 downto 0);
+      pc : in STD_LOGIC_VECTOR(11 downto 0);
       instruction : out STD_LOGIC_VECTOR(31 downto 0)
     );
   end component;
 
   -- define all intermediary signals here
-  signal pc : STD_LOGIC_VECTOR(31 downto 0);
+  signal pc : STD_LOGIC_VECTOR(11 downto 0);
   signal instruction : STD_LOGIC_VECTOR(31 downto 0);
 
   -- start simulation here
@@ -89,17 +89,17 @@ begin
   begin
 
     -- Test instruction fetch
-    pc <= x"00000000";
+    pc <= x"000";
     wait for 10 ns;
-    assert (instruction = x"00400093") report "Instruction fetch failed at address 0" severity error;
+    assert (instruction = x"00000093") report "Instruction fetch failed at address 0" severity error;
 
-    pc <= x"00000004";
+    pc <= x"004";
     wait for 10 ns;
-    assert (instruction = x"00800113") report "Instruction fetch failed at address 4" severity error;
+    assert (instruction = x"00428763") report "Instruction fetch failed at address 4" severity error;
 
-    pc <= x"00000008";
+    pc <= x"008";
     wait for 10 ns;
-    assert (instruction = x"00A00193") report "Instruction fetch failed at address 8" severity error;
+    assert (instruction = x"0001807F") report "Instruction fetch failed at address 8" severity error;
 
     -- End simulation
     wait;
@@ -109,6 +109,12 @@ end Behavioral;
 ```
 
 Here's the provided waveform of the simulation to prove its correctness:
+<p align="center">
+    <img src="./IMWaveform.png" />
+</p>
+<p align="center">
+    <em>The correct instruction is selected based on PC addressing.</em>
+</p>
 
 If you want to see how I derived the binary instructions for the CPU, you can refer to here and the RISC-V instruction format.
 
