@@ -49,7 +49,7 @@ This top-level module:
 
 ## ▶️ Video Demo
 
-**[Watch the working demo](https://youtu.be/ghEym8AjQQo)** of the RISC-V processor handling the following assembly file. I want the FPGA board to "print" the first ten Fibonacci numbers.
+**[Watch the working demo](https://youtu.be/W9_f-erUfQ4?si=PZiqwoZfcFX9fY8s)** of the RISC-V processor handling the following assembly file. I want the FPGA board to "print" the first ten Fibonacci numbers.
 
 ## 🎢 Next Steps
 The current implementation of the processor handles instruction fetching, decoding, computation, and writeback all within a single clock cycle. As a result, the clock cycle must be slow enough to ensure that clock slack is negligible. For the scope of this project, this wasn't an issue and the CPU worked as expected.
