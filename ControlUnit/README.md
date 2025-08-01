@@ -169,7 +169,8 @@ architecture Behavioral of control_unit_tb is
   end component;
 
   -- define all intermediary signals here
-  signal opcode, funct3, funct7 : STD_LOGIC_VECTOR(6 downto 0);
+  signal opcode, funct7 : STD_LOGIC_VECTOR(6 downto 0);
+  signal funct3 : STD_LOGIC_VECTOR(2 downto 0);
   signal RegWrite, MemRead, MemWrite, BranchEq, memToReg, ALUSrc, jmp : STD_LOGIC;
   signal ALUCont : STD_LOGIC_VECTOR(2 downto 0);
 
