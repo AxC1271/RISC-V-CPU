@@ -123,7 +123,7 @@ begin
 
   stimulus: process
   begin
-    instruction x"00000093"; -- 0. addi x1, x0, 0
+    instruction <= x"00000093"; -- 0. addi x1, x0, 0
     wait for 10 ns;
     assert (immediate = x"00000000")
       report "I-type immediate extraction failed" severity error;
@@ -163,8 +163,10 @@ begin
 end Behavioral;
 ```
 
-Here's the subsequent waveform of that test bench for the immediate generator.
-
+Notice I am using both instructions from my instruction memory and instructions not included: that way I can validate the immediates of each instruction are true to help debug my script and as proof of concept. Here's the subsequent waveform of that test bench for the immediate generator.
+<p align="center">
+  <img src="./Waveform.png" />
+</p>
 
 ## 💡 Theoretical Background
 
