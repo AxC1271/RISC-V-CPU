@@ -91,6 +91,8 @@ In regards to data hazards:
 
 This was the old assembly code that I wrote for this CPU and the massive problem was on line 9: `addi x4, x4, 0`. Since my register file was clocked and reg_writes were updated on the rising edge of the clock, this meant that register '0x00000004' was incremented by 1 at least a couple million times, meaning that the BEQ condition on line 4 was never satisfied, therefore the Fibonacci sequence repeated itself infinitely, which was not what I wanted.
 
+As of 8/1/25, I've rewritten the assembly program just so the Fibonacci sequence now stops at 144, but in the future I would want to implement a feature to this CPU that would make writing back to the same register safe against RAW and WAR hazards.
+
 
 --- 
 
