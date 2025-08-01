@@ -150,7 +150,7 @@ end Behavioral;
 
 Here are the waveforms on Vivado to show proof of correctness.
 <p align="center">
-    <img src="./Waveform.png" />
+    <img src="./PCWaveform.png" />
 </p>
 
 <p align="center">
