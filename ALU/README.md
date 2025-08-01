@@ -182,6 +182,15 @@ begin
 end Behavioral;
 ```
 
+Here is the waveform for proof of correctness:
+<p align="center">
+    <img src="./ALUWaveform.png" />
+</p>
+
+<p align="center">
+    <em>The output is to be as expected.</em>
+</p>
+
 ## 💡 Theoretical Background
 
 ### Purpose
