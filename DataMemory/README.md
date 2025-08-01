@@ -167,6 +167,12 @@ end Behavioral;
 ```
 
 Here's the waveform to ensure proper behavior for the data memory module.
+<p align="center">
+    <img src="./DMWaveform.png" />
+</p>
+<p align="center">
+    <em>Waveform shows data being read correctly from the correct address.</em>
+</p>
 
 ## 💡 Theoretical Background
 
