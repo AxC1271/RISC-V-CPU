@@ -55,6 +55,16 @@ int main() {
 
 **[Watch the working demo here](https://youtu.be/ghEym8AjQQo)** of the RISC-V processor handling the assembly code. I want the FPGA board to "print" the first ten Fibonacci numbers.
 
+## ⚠️ Limitations
+
+This is a CPU running one instruction per program counter cycle but has no multi-stage pipelining, branch predictions, etc. to optimize the hardware to execute instructions as fast as possible. The reason I opted for the 1 Hz program counter was to:
+
+- Visually see the program counter update incrementally using the Basys3 LED's
+- Easily validate the seven-seg output from the multiplexer module
+- Focus on the instruction decoding, computation, and writeback stages
+
+Despite these limitations, the CPU is still able to execute instructions in sequential order and handle branch jumps as shown in the video demo. For a future project, optimization techniques such as the ones listed above will be considered to improve overall hardware performance. Since the clock frequency is so slow, the lack of such features wouldn't impact functionality.
+
 --- 
 
 Please go into each subproject folder to see more in detail.
