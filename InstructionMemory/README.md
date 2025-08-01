@@ -149,7 +149,7 @@ Referring to the ISA for this CPU implementation, I have the following instructi
 1.  addi x2, x0, 1   ; b = 1  
 2.  addi x4, x0, 0   ; i = 0
 3.  addi x5, x0, 10  ; loop limit = 10
-4.  beq x4, x5, 7    ; if i == 11, goto infinite loop
+4.  beq x4, x5, 7    ; if i == 10, branch 7 instructions ahead
 5.  add x3, x1, x2   ; fib = a + b
 6.  addi x1, x2, 0   ; a = b
 7.  addi x2, x3, 0   ; b = fib  
