@@ -137,13 +137,13 @@ architecture Behavioral of riscv_processor is
 
 begin
     clk_enable_gen : process(clk, rst) 
-        variable clk_cnt : integer range 0 to 50_000_000 := 0;
+        variable clk_cnt : integer range 0 to 25_000_000 := 0;
     begin
         if rst = '1' then
             clk_cnt := 0;
             pc_enable <= '0';
         elsif rising_edge(clk) then
-            if clk_cnt = 50_000_000 then  
+            if clk_cnt = 25_000_000 then  
                 clk_cnt := 0;
                 pc_enable <= '1';
             else
