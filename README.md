@@ -66,7 +66,7 @@ This is a CPU running one instruction per program counter cycle but has no multi
 
 Despite these limitations, the CPU is still able to execute instructions in sequential order and handle branch jumps as shown in the video demo. For a future project, optimization techniques such as the ones listed above will be considered to improve overall hardware performance. Since the clock frequency is so slow, the lack of such features wouldn't impact functionality.
 
-In regards to data hazards,:
+In regards to data hazards:
 ```asm
 ; define x0 as the zero register  
 ; define x1 as the first Fibonacci number (a)
