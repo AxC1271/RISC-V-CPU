@@ -1,5 +1,5 @@
 # RISC-V CPU FPGA Implementation
-Welcome to the RISC-V CPU FPGA Implementation project! Inspired by my computer architecture course at Case Western, this project aims to design and implement a processor based on the RISC-V architecture using VHDL.
+Welcome to the RISC-V CPU FPGA Implementation project! Inspired by my computer architecture course at Case Western, this project aims to design and implement a processor based on the RISC-V architecture using VHDL. Keep in mind that this implementation is a very simple implementation: it does not feature multi-stage pipelining, data hazard management, or any hardware optimization techniques like data forwarding or branch predictions. 
 
 ## 🧠 Overview 
 This project involves creating a RISC-V compatible CPU on an FPGA, focusing on the hardware components and CPU architecture. The CPU follows the standard instruction cycle: fetch → decode → execute → memory access → write-back, interacting with RAM to store computation results.
