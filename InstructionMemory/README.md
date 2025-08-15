@@ -169,7 +169,7 @@ Referring to the ISA for this CPU implementation, I have the following instructi
     <em>Instruction Format of RISC-V instructions.</em>
 </p>
 
-Now, if we convert them to the 32-bit binary instructions referring to the instruction format of RISC-V (and nmy custom print function), we'll get:
+Now, if we convert them to the 32-bit binary instructions referring to the instruction format of RISC-V (and my custom print function), we'll get:
 
 ```
 0.  000000000000_00000_000_00001_0010011  -- addi x1, x0, 0
