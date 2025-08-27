@@ -117,6 +117,7 @@ architecture Behavioral of riscv_processor is
             ade : out STD_LOGIC_VECTOR(3 downto 0)   
         );
     end component;
+    
     signal pc_enable : STD_LOGIC := '0';
     signal pc_i : STD_LOGIC_VECTOR(31 downto 0);
     signal pc_next : STD_LOGIC_VECTOR(31 downto 0);
