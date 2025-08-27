@@ -57,7 +57,7 @@ int main() {
 
 ## ⚠️ Limitations
 
-This is a CPU running one instruction per program counter cycle but has no multi-stage pipelining, branch predictions, etc. to optimize the hardware to execute instructions as fast as possible. The reason I opted for the 1 Hz program counter was to:
+This is a CPU running one instruction per program counter cycle but has no multi-stage pipelining, branch predictions, etc. to optimize the hardware to execute instructions as fast as possible. The reason I opted for a lower frequency clock for the program counter was to:
 
 - Visually see the program counter update incrementally using the Basys3 LED's
 - Easily validate the seven-seg output from the multiplexer module
